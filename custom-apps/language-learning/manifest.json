@@ -1,0 +1,72 @@
+{
+  "sdkVersion": "1.0",
+  "id": "language.learning",
+  "name": "星语学园",
+  "version": "1.0.0",
+  "author": "Doremy",
+  "description": "陪伴式多语种养成学习 App（默认支持英语/日语/俄语/韩语）：把背单词做成有角色陪伴、有同人小剧场、有星光值兑换奖励的轻养成系统。",
+  "icon": "icon.png",
+  "entry": "index.html",
+  "permissions": [
+    "app.data.read",
+    "app.data.write",
+    "ai.generate",
+    "characters.read",
+    "memory.write",
+    "memory.readLongTerm",
+    "voice.tts",
+    "chat.sendCard",
+    "ui.toast"
+  ],
+  "extensions": {
+    "chat": {
+      "plusActions": [
+        {
+          "id": "open_review",
+          "label": "星语复习",
+          "description": "打开星语学园进行今日单词复习或小剧场互动",
+          "icon": "book-open",
+          "presentation": "panel",
+          "panelHeight": "78vh",
+          "entry": "index.html"
+        },
+        {
+          "id": "invite_teach",
+          "label": "让TA教我",
+          "description": "邀请当前聊天角色进入同人小剧场进行词汇教学",
+          "icon": "sparkles",
+          "presentation": "app",
+          "entry": "index.html"
+        }
+      ],
+      "messageActions": [
+        {
+          "id": "lookup_or_add_vocab",
+          "label": "加入星语单词本",
+          "description": "从当前消息提取生词加入星语学园词库",
+          "entry": "index.html"
+        }
+      ],
+      "directives": [
+        {
+          "id": "starling_word_card",
+          "label": "星语单词卡",
+          "syntax": "[星语单词卡:内容]",
+          "description": "向聊天室发送一张星语学园今日复习或同人小剧场学习卡片",
+          "appLabel": "星语学园",
+          "accentColor": "#7c6cff"
+        }
+      ]
+    },
+    "ui": {
+      "homeWidgets": [
+        {
+          "id": "starling_daily_widget",
+          "label": "星语今日待复习",
+          "description": "在桌面展示今日复习进度与星光值签到状态",
+          "entry": "index.html"
+        }
+      ]
+    }
+  }
+}

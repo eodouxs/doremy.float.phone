@@ -1,0 +1,2631 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" />
+<title>星语学园 · 极简陪伴式背单词</title>
+<!--
+================================================================================
+  🖤 【小白傻瓜美化修改区 · 第 1 部分：默认 INS 极简黑白主题变量】 🖤
+  当前默认采用干净高级的「INS 极简黑白风」，你也可以在「个人 → 外观设置」中
+  一键切换「深色极简 / 星夜蓝紫 / 樱花手账 / 森系薄荷」等风格！
+================================================================================
+-->
+<style id="baseThemeStyle">
+  :root {
+    --bg-primary: #f7f7f8;
+    --bg-secondary: #efefef;
+    --card-bg: #ffffff;
+    --card-border: #e4e4e7;
+    --text-main: #111113;
+    --text-sub: #71717a;
+    --accent: #18181b;
+    --accent-fg: #ffffff;
+    --accent-soft: #f4f4f5;
+    --green: #16a34a;
+    --green-soft: #dcfce7;
+    --amber: #d97706;
+    --amber-soft: #fef3c7;
+    --red: #dc2626;
+    --red-soft: #fee2e2;
+    --radius-lg: 18px;
+    --radius-md: 12px;
+    --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.03);
+    --bg-wallpaper: none;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    background-image: var(--bg-wallpaper);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: var(--text-main);
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    font-size: 14.5px;
+    line-height: 1.55;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .app-container {
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+    padding: 16px 16px calc(env(safe-area-inset-bottom, 0px) + 86px);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* 二级独立子页面顶栏（带左上角返回键） */
+  .subpage-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 6px 0 14px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .back-btn {
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+    color: var(--text-main);
+    border-radius: 10px;
+    padding: 7px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    box-shadow: var(--shadow-sm);
+  }
+  .back-btn:active { transform: scale(0.97); }
+
+  .subpage-title {
+    font-size: 15.5px;
+    font-weight: 800;
+    letter-spacing: -0.2px;
+  }
+
+  /* 通用卡片 */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    padding: 18px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 12px;
+  }
+
+  .card-sm {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-md);
+    padding: 14px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* 按钮体系 */
+  .btn {
+    border: 1px solid transparent;
+    border-radius: 12px;
+    background: var(--accent);
+    color: var(--accent-fg);
+    font-size: 14px;
+    font-weight: 700;
+    padding: 11px 16px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: transform 0.1s ease, opacity 0.15s ease;
+  }
+  .btn:active { transform: scale(0.98); }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+  .btn.ghost {
+    background: var(--card-bg);
+    color: var(--text-main);
+    border-color: var(--card-border);
+  }
+
+  .btn.soft {
+    background: var(--accent-soft);
+    color: var(--text-main);
+  }
+
+  .btn.sm {
+    padding: 6px 11px;
+    font-size: 12.5px;
+    border-radius: 9px;
+  }
+
+  .btn.lg {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 15.5px;
+    border-radius: 14px;
+  }
+
+  /* 徽章与进度条 */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 11.5px;
+    font-weight: 700;
+    background: var(--accent-soft);
+    color: var(--text-main);
+    border: 1px solid var(--card-border);
+  }
+
+  .progress-track {
+    width: 100%;
+    height: 6px;
+    background: var(--bg-secondary);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 999px;
+    transition: width 0.25s ease;
+  }
+
+  /* 词书卡片网格 */
+  .book-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .book-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 15px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+  }
+  .book-item.selected {
+    border: 2px solid var(--accent);
+  }
+
+  /* 复习模式入口网格（主页） */
+  .review-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .review-entry-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-md);
+    padding: 14px;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.12s ease, border-color 0.15s ease;
+  }
+  .review-entry-card:active { transform: scale(0.98); }
+  .review-entry-card.wide {
+    grid-column: span 2;
+  }
+
+  /* 墨墨式背单词卡片区 */
+  .study-flashcard {
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 24px 20px;
+    text-align: center;
+  }
+
+  .study-word-title {
+    font-size: 34px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    margin-top: 8px;
+  }
+
+  .study-phonetic {
+    font-size: 14px;
+    color: var(--text-sub);
+    margin-top: 6px;
+  }
+
+  .memory-btn-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .mem-btn {
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 13px 8px;
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    background: var(--card-bg);
+    color: var(--text-main);
+  }
+  .mem-btn span.sub {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-sub);
+  }
+  .mem-btn.know {
+    background: var(--green-soft);
+    border-color: rgba(22, 163, 74, 0.35);
+    color: var(--green);
+  }
+  .mem-btn.familiar {
+    background: var(--amber-soft);
+    border-color: rgba(217, 119, 6, 0.35);
+    color: var(--amber);
+  }
+  .mem-btn.unknown {
+    background: var(--red-soft);
+    border-color: rgba(220, 38, 38, 0.35);
+    color: var(--red);
+  }
+
+  /* 专业拼写界面（字母格样式） */
+  .letter-slots {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin: 18px 0;
+  }
+
+  .letter-box {
+    width: 34px;
+    height: 42px;
+    border-bottom: 2.5px solid var(--text-main);
+    background: var(--accent-soft);
+    border-radius: 6px 6px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 800;
+    font-family: monospace;
+  }
+  .letter-box.filled {
+    border-bottom-color: var(--accent);
+  }
+  .letter-box.error {
+    border-bottom-color: var(--red);
+    color: var(--red);
+    background: var(--red-soft);
+  }
+  .letter-box.correct {
+    border-bottom-color: var(--green);
+    color: var(--green);
+    background: var(--green-soft);
+  }
+
+  /* 表单与选项 */
+  .input-field, .textarea-field, .select-field {
+    width: 100%;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 11px;
+    color: var(--text-main);
+    padding: 10px 12px;
+    font-size: 14px;
+    outline: none;
+  }
+  .input-field:focus, .textarea-field:focus {
+    border-color: var(--accent);
+  }
+
+  .mcq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin-top: 14px;
+  }
+
+  .mcq-option {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 14px;
+    color: var(--text-main);
+    cursor: pointer;
+  }
+  .mcq-option.correct {
+    background: var(--green-soft);
+    border-color: var(--green);
+    color: var(--green);
+    font-weight: 700;
+  }
+  .mcq-option.wrong {
+    background: var(--red-soft);
+    border-color: var(--red);
+    color: var(--red);
+  }
+
+  /* 底部精简四栏导航 */
+  .bottom-nav {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
+    width: calc(100% - 32px);
+    max-width: 448px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    padding: 5px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+    z-index: 90;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.08);
+  }
+
+  .nav-tab {
+    border: 0;
+    background: transparent;
+    color: var(--text-sub);
+    padding: 8px 4px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+  .nav-tab.active {
+    background: var(--accent);
+    color: var(--accent-fg);
+  }
+
+  /* 弹窗与 Toast */
+  .modal-mask {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.48);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    z-index: 200;
+  }
+
+  .modal-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    width: 100%;
+    max-width: 420px;
+    max-height: 86vh;
+    overflow-y: auto;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.16);
+  }
+
+  .toast-banner {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: var(--accent-fg);
+    padding: 9px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    z-index: 300;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  }
+
+  .kw-pill {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 5px;
+    background: var(--accent-soft);
+    border-bottom: 1.5px solid var(--text-main);
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .week-row {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    margin: 10px 0;
+  }
+  .week-cell {
+    border: 1px solid var(--card-border);
+    background: var(--accent-soft);
+    border-radius: 10px;
+    padding: 7px 2px;
+    text-align: center;
+    font-size: 11.5px;
+  }
+  .week-cell.done {
+    background: var(--accent);
+    color: var(--accent-fg);
+    border-color: var(--accent);
+    font-weight: 700;
+  }
+
+  .hidden { display: none !important; }
+  .row { display: flex; align-items: center; gap: 8px; }
+  .row-between { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .mt-2 { margin-top: 8px; }
+  .mt-3 { margin-top: 12px; }
+  .mt-4 { margin-top: 16px; }
+</style>
+<style id="userCustomCssSlot"></style>
+</head>
+<body>
+<div id="toastBanner" class="toast-banner hidden"></div>
+
+<div class="app-container">
+
+  <!-- =========================================================================
+       视图 A：主学习 Tab (清爽结构：当前词书卡片 + 开始今天的学习 + 独立复习入口)
+       ========================================================================= -->
+  <section id="mainTabStudy">
+    <div class="row-between" style="margin-bottom:14px">
+      <div>
+        <h1 style="font-size:20px;font-weight:900;letter-spacing:-0.4px">星语学园</h1>
+        <p style="font-size:12px;color:var(--text-sub)" id="studyHeaderSub">英语 EN · 陪伴式记忆系统</p>
+      </div>
+      <div class="row">
+        <button type="button" class="btn ghost sm" id="btnOpenBookSelector">📚 换词书 / 导词书</button>
+      </div>
+    </div>
+
+    <!-- 当前词书与每日计划进度卡 -->
+    <div class="card">
+      <div class="row-between">
+        <span class="tag" id="currentBookLangTag">🇬🇧 英语词书</span>
+        <button type="button" class="btn soft sm" id="btnEditPlanModal">⚙️ 调整每日计划</button>
+      </div>
+
+      <h2 style="font-size:18px;font-weight:800;margin-top:10px" id="currentBookTitle">雅思核心高频词书 (IELTS)</h2>
+      <p style="font-size:12.5px;color:var(--text-sub);margin-top:4px" id="currentBookPlanSummary">
+        每日计划 10 词 · 预计 3 天背完剩余词条
+      </p>
+
+      <div class="progress-track mt-3">
+        <div class="progress-fill" id="currentBookProgressBar" style="width:25%"></div>
+      </div>
+
+      <div class="row-between mt-2" style="font-size:12px;color:var(--text-sub)">
+        <span>已掌握 <strong style="color:var(--text-main)" id="bookMasteredCount">0</strong> / <span id="bookTotalCount">20</span> 词</span>
+        <span>今日已背 <strong style="color:var(--text-main)" id="todayLearnedCountText">0</strong> / <span id="todayTargetCountText">10</span> 词</span>
+      </div>
+
+      <!-- 核心大按钮：开始今天的学习 -->
+      <div class="mt-4">
+        <button type="button" class="btn lg" id="btnStartTodayStudy">
+          🚀 开始今天的学习（1 词 = 1 星光）
+        </button>
+      </div>
+    </div>
+
+    <!-- 独立复习方式入口（每个卡片点进去都是独立子页面，基于今日已背/已学单词出题） -->
+    <div class="row-between" style="margin:6px 2px 2px">
+      <span style="font-size:13.5px;font-weight:800">专项复习板块（基于已学单词独立出题）</span>
+      <span style="font-size:11.5px;color:var(--text-sub)" id="learnedPoolBadge">已学词池: 0 词</span>
+    </div>
+
+    <div class="review-grid">
+      <button type="button" class="review-entry-card" id="cardOpenSpellingPage">
+        <div class="row-between" style="width:100%">
+          <strong style="font-size:14.5px">✍️ 拼写默写</strong>
+          <span class="tag" id="badgeAvgSpelling">0%</span>
+        </div>
+        <span style="font-size:12px;color:var(--text-sub)">字母格还原默写，强化肌肉记忆</span>
+      </button>
+
+      <button type="button" class="review-entry-card" id="cardOpenListeningPage">
+        <div class="row-between" style="width:100%">
+          <strong style="font-size:14.5px">🎧 听力辨词</strong>
+          <span class="tag" id="badgeAvgListening">0%</span>
+        </div>
+        <span style="font-size:12px;color:var(--text-sub)">听发音辨认今日所学单词</span>
+      </button>
+
+      <button type="button" class="review-entry-card" id="cardOpenClozePage">
+        <div class="row-between" style="width:100%">
+          <strong style="font-size:14.5px">🧩 例句完形</strong>
+          <span class="tag" id="badgeAvgCloze">0%</span>
+        </div>
+        <span style="font-size:12px;color:var(--text-sub)">结合语境填入正确词形变化</span>
+      </button>
+
+      <button type="button" class="review-entry-card" id="cardOpenSensePage">
+        <div class="row-between" style="width:100%">
+          <strong style="font-size:14.5px">🔍 词义辨析</strong>
+          <span class="tag" id="badgeAvgSense">0%</span>
+        </div>
+        <span style="font-size:12px;color:var(--text-sub)">区分同词族词性与近义词</span>
+      </button>
+
+      <button type="button" class="review-entry-card wide" id="cardOpenTheaterSubpage">
+        <div class="row-between" style="width:100%">
+          <strong style="font-size:14.5px">🎭 AI 同人小剧场（今日已学词汇编织剧情）</strong>
+          <span class="tag">独立进入 ▶</span>
+        </div>
+        <span style="font-size:12px;color:var(--text-sub)">将今天背过的单词与词族变形融入你和角色的专属故事</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       独立子页面 1：选择语种 -> 选择词书 / 导入本地词书
+       ========================================================================= -->
+  <section id="subpageBookSelect" class="hidden">
+    <div class="subpage-header">
+      <button type="button" class="back-btn" id="btnBackFromBooks">← 返回</button>
+      <div class="subpage-title">选择语种与词书</div>
+      <button type="button" class="btn sm" id="btnTriggerImportFile">📥 导入词书</button>
+    </div>
+
+    <!-- 隐藏的本地文件导入器 (.txt / .csv / .json) -->
+    <input type="file" id="hiddenBookFileInput" accept=".txt,.csv,.json" class="hidden" />
+
+    <div class="card">
+      <div style="font-size:13px;font-weight:800;margin-bottom:8px">第一步：选择要学习的语种</div>
+      <div class="row" style="flex-wrap:wrap" id="bookPageLangChips"></div>
+    </div>
+
+    <div class="card">
+      <div class="row-between" style="margin-bottom:10px">
+        <div style="font-size:13px;font-weight:800">第二步：选择词书（点击词书设定每日计划）</div>
+        <button type="button" class="btn ghost sm" id="btnOpenPasteBookModal">＋ 粘贴自建词书</button>
+      </div>
+      <p style="font-size:12px;color:var(--text-sub);margin-bottom:12px">
+        内置词书与本地文件导入均由纯程序解析，<strong>零 AI Token 消耗</strong>。支持导入墨墨/百词斩/Anki 导出的 TXT、CSV 或 JSON 词表。
+      </p>
+      <div class="book-list" id="bookListContainer"></div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       独立子页面 2：墨墨式今日背单词页面（认识 / 熟悉 / 不认识 队列循环）
+       ========================================================================= -->
+  <section id="subpageMemorize" class="hidden">
+    <div class="subpage-header">
+      <button type="button" class="back-btn" id="btnBackFromMemorize">← 返回主页</button>
+      <div class="subpage-title" id="memorizeHeaderProgress">今日背诵 1 / 10</div>
+      <button type="button" class="btn ghost sm" id="btnSpeakCurrentStudyWord">🔊 发音</button>
+    </div>
+
+    <!-- 墨墨式三色记忆队列状态条 -->
+    <div class="card-sm" style="margin-bottom:12px">
+      <div class="row-between" style="font-size:12px;margin-bottom:6px">
+        <span>🟢 已认识: <strong id="queueKnownCount">0</strong></span>
+        <span>🟡 熟悉待巩固: <strong id="queueFamiliarCount">0</strong></span>
+        <span>🔴 剩余待背: <strong id="queueRemainingCount">10</strong></span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="memorizeQueueBar" style="width:0%"></div>
+      </div>
+    </div>
+
+    <!-- 单词记忆主卡片 -->
+    <div class="card study-flashcard" id="memorizeCardBox">
+      <div>
+        <span class="tag" id="studyCardPosTag">v.</span>
+        <div class="study-word-title" id="studyCardWord">create</div>
+        <div class="study-phonetic" id="studyCardPhonetic">/kriˈeɪt/ · 词元: create</div>
+      </div>
+
+      <!-- 遮罩提示 / 展开详情区 -->
+      <div id="studyCardDetailArea" style="margin:18px 0">
+        <button type="button" class="btn ghost sm" id="btnRevealMeaning">👁️ 点击显示释义与例句</button>
+        <div id="studyCardRevealedContent" class="hidden" style="text-align:left;margin-top:12px;padding:14px;background:var(--accent-soft);border-radius:12px">
+          <div style="font-size:16px;font-weight:800" id="studyCardMeaning">创造；创作</div>
+          <div style="font-size:13px;color:var(--text-sub);margin-top:6px" id="studyCardExample"></div>
+          <div style="font-size:12px;margin-top:8px" id="studyCardFamilyLine"></div>
+        </div>
+      </div>
+
+      <div>
+        <p style="font-size:11.5px;color:var(--text-sub)">选「熟悉」或「不认识」的词会自动排入队尾重现，直到全部「认识」</p>
+        <div class="memory-btn-row">
+          <button type="button" class="mem-btn know" id="btnMemKnow">
+            <span>😎 认识</span>
+            <span class="sub">掌握 +1🌟</span>
+          </button>
+          <button type="button" class="mem-btn familiar" id="btnMemFamiliar">
+            <span>🤔 熟悉</span>
+            <span class="sub">稍后重现</span>
+          </button>
+          <button type="button" class="mem-btn unknown" id="btnMemUnknown">
+            <span>😣 不认识</span>
+            <span class="sub">强化记忆</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       独立子页面 3：今日背诵完成结算页（奖励星光 + 询问是否继续拼写）
+       ========================================================================= -->
+  <section id="subpageStudyComplete" class="hidden">
+    <div class="subpage-header">
+      <button type="button" class="back-btn" id="btnBackFromComplete">← 返回主页</button>
+      <div class="subpage-title">今日学习完成</div>
+      <span></span>
+    </div>
+
+    <div class="card" style="text-align:center;padding:28px 20px">
+      <div style="font-size:46px">🎉</div>
+      <h2 style="font-size:21px;font-weight:900;margin-top:8px">恭喜你完成今天的学习！</h2>
+      <p style="font-size:13.5px;color:var(--text-sub);margin-top:6px" id="completeEncourageText">
+        伴学搭档星野理央：「太棒了！今天计划的每一个单词你都坚持背到了全部认识，为你骄傲！」
+      </p>
+
+      <div class="card-sm mt-4" style="background:var(--accent-soft)">
+        <div style="font-size:12.5px;color:var(--text-sub)">本次背诵掌握单词（1 词 = 1 星光值）</div>
+        <div style="font-size:28px;font-weight:900;margin-top:4px" id="completeRewardDisplay">+10 🌟 星光值</div>
+      </div>
+
+      <div style="margin-top:22px;padding-top:16px;border-top:1px solid var(--card-border)">
+        <div style="font-size:14.5px;font-weight:800;margin-bottom:12px">是否继续进行今日单词拼写巩固？</div>
+        <div class="row" style="gap:10px">
+          <button type="button" class="btn ghost lg" id="btnSkipToHome" style="flex:1">否，先休息一下</button>
+          <button type="button" class="btn lg" id="btnGoToSpellingNow" style="flex:1">是，去拼写巩固 ▶</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       独立子页面 4：专项复习独立页（拼写默写 / 听力辨词 / 例句完形 / 词义辨析）
+       ========================================================================= -->
+  <section id="subpageQuizMode" class="hidden">
+    <div class="subpage-header">
+      <button type="button" class="back-btn" id="btnBackFromQuiz">← 返回主页</button>
+      <div class="subpage-title" id="quizSubpageTitle">拼写默写</div>
+      <span class="tag" id="quizProgressBadge">1 / 5</span>
+    </div>
+
+    <div class="card">
+      <div class="row-between">
+        <span class="tag" id="quizSourceHintTag">今日已学词库出题</span>
+        <button type="button" class="btn ghost sm" id="btnQuizPlayAudio">🔊 朗读发音</button>
+      </div>
+
+      <!-- 题干展示 -->
+      <div style="margin-top:14px;text-align:center">
+        <div style="font-size:18px;font-weight:800" id="quizQuestionMain">意外发现美好事物的运气 · n.</div>
+        <div style="font-size:13px;color:var(--text-sub);margin-top:4px" id="quizQuestionSub">/ˌser.ənˈdɪp.ə.ti/</div>
+      </div>
+
+      <!-- 专业拼写模式专用：字母格 + 键盘输入 + 提示按钮 -->
+      <div id="quizSpellingSection" class="hidden">
+        <div class="letter-slots" id="spellingLetterSlots"></div>
+        <input type="text" class="input-field" id="quizSpellingInput" placeholder="输入完整单词拼写（看着上方字母格实时对齐）…" autocomplete="off" style="text-align:center;font-weight:700;letter-spacing:1px" />
+        <div class="row mt-3" style="gap:8px">
+          <button type="button" class="btn ghost" id="btnSpellingHintLetter" style="flex:1">💡 提示一个字母</button>
+          <button type="button" class="btn" id="btnSpellingCheck" style="flex:2">确认拼写</button>
+        </div>
+      </div>
+
+      <!-- 听力 / 完形 / 辨析 四选一模式专用 -->
+      <div id="quizMcqSection" class="mcq-list hidden"></div>
+
+      <div id="quizFeedbackLine" class="mt-3" style="font-size:13.5px;font-weight:700;text-align:center;min-height:22px"></div>
+
+      <div class="row mt-3" style="justify-content:flex-end">
+        <button type="button" class="btn ghost sm" id="btnNextQuizItem">下一题 ▶</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       视图 B：🎭 同人小剧场 Tab（也可从首页卡片进入，左上角带返回主页按钮）
+       ========================================================================= -->
+  <section id="mainTabTheater" class="hidden">
+    <div class="subpage-header">
+      <button type="button" class="back-btn" id="btnBackFromTheater">← 返回学习</button>
+      <div class="subpage-title">AI 同人记忆小剧场</div>
+      <span class="tag" id="theaterCompanionTag">搭档: 星野理央</span>
+    </div>
+
+    <div class="card">
+      <p style="font-size:12.5px;color:var(--text-sub)">
+        自动调取你<strong>今日已背单词与同词族变形</strong>编织原创故事或论坛体吐槽帖，同一词族每天可切换不同世界观语境。
+      </p>
+
+      <div class="mt-3">
+        <label style="font-size:12px;font-weight:700;color:var(--text-sub)">选择今日已背词族：</label>
+        <select class="select-field mt-2" id="theaterWordSelect"></select>
+      </div>
+
+      <div class="mt-3">
+        <label style="font-size:12px;font-weight:700;color:var(--text-sub)">选择记忆世界观 / 语境风格：</label>
+        <div class="row mt-2" style="flex-wrap:wrap" id="theaterSceneButtons"></div>
+      </div>
+
+      <div class="row mt-3" style="gap:8px">
+        <button type="button" class="btn ghost" id="btnGenerateTemplateStory" style="flex:1">⚡ 快速生成 (零Token)</button>
+        <button type="button" class="btn" id="btnGenerateAiStory" style="flex:1">✨ AI 角色专属生成</button>
+      </div>
+
+      <!-- 剧场正文区 -->
+      <div class="card-sm mt-3" style="background:var(--accent-soft)">
+        <div class="row-between">
+          <strong style="font-size:14px" id="storyStageHeader">小剧场 · 创意工作室</strong>
+          <span class="tag" id="storyModeTag">同词族记忆</span>
+        </div>
+        <div id="storyLinesBox" style="margin-top:10px;display:flex;flex-direction:column;gap:8px;font-size:14px;line-height:1.7"></div>
+
+        <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--card-border)">
+          <div style="font-size:12px;font-weight:800;color:var(--text-sub);margin-bottom:4px">📌 本场出现的词汇（点击朗读）：</div>
+          <div id="storyVocabFootnotes" style="font-size:12.5px;display:flex;flex-direction:column;gap:4px"></div>
+        </div>
+
+        <div class="row mt-3" style="gap:8px;flex-wrap:wrap">
+          <button type="button" class="btn sm" id="btnFinishStoryReward">✅ 完成阅读记忆 (+5🌟)</button>
+          <button type="button" class="btn ghost sm" id="btnWriteStoryMemory">🧠 写入角色记忆</button>
+          <button type="button" class="btn ghost sm" id="btnCopyStoryToNote">📝 摘抄到笔记</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       视图 C：📝 词库与笔记 Tab（查看已背记录、手动添词、个人笔记与角色批注）
+       ========================================================================= -->
+  <section id="mainTabNotebook" class="hidden">
+    <div class="row-between" style="margin-bottom:12px">
+      <h2 style="font-size:18px;font-weight:900">已背词库 & 学习笔记</h2>
+      <div class="row">
+        <button type="button" class="btn ghost sm" id="btnOpenManualAddWord">＋ 手动加词</button>
+        <button type="button" class="btn sm" id="btnSwitchNoteSubView">切换: 笔记/词表</button>
+      </div>
+    </div>
+
+    <!-- 子面板 1：记忆系统已背单词追踪表（不依赖 AI 也精准记录每个词的熟悉度与复习次数） -->
+    <div id="vocabMemoryPanel" class="card">
+      <div class="row-between">
+        <strong style="font-size:14.5px">📊 本地记忆引擎 · 单词掌握档案</strong>
+        <span class="tag" id="memoryTrackedCountTag">已追踪 0 词</span>
+      </div>
+      <p style="font-size:12px;color:var(--text-sub);margin-top:4px">
+        不依赖 AI，程序自动按记忆曲线记录你背过的每一个词、认识/不认识次数与五维做题正确率。
+      </p>
+      <input type="text" class="input-field mt-2" id="memorySearchInput" placeholder="搜索当前词书中的单词或中文释义…" />
+      <div id="memoryWordListBox" class="mt-3" style="display:flex;flex-direction:column;gap:8px;max-height:380px;overflow-y:auto"></div>
+    </div>
+
+    <!-- 子面板 2：个人学习笔记本 -->
+    <div id="personalNotesPanel" class="card">
+      <div class="row-between">
+        <strong style="font-size:14.5px">📝 个人学习笔记本</strong>
+        <button type="button" class="btn ghost sm" id="btnAskRoleNoteComment">💌 请角色批注</button>
+      </div>
+      <input type="text" class="input-field mt-2" id="noteTitleField" placeholder="笔记标题（如：今日雅思核心词族整理）" />
+      <textarea class="textarea-field mt-2" id="noteBodyField" rows="3" placeholder="写下你的语法心得、错题总结或小剧场摘抄…"></textarea>
+      <div class="row mt-2" style="justify-content:flex-end">
+        <button type="button" class="btn sm" id="btnSavePersonalNote">保存笔记</button>
+      </div>
+      <div id="savedNotesListBox" class="mt-3" style="display:flex;flex-direction:column;gap:8px"></div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       视图 D：👤 个人 Tab（整合伴学角色、语言切换、每日签到、星光商城、文字小剧场馆、INS美化）
+       ========================================================================= -->
+  <section id="mainTabProfile" class="hidden">
+    <!-- 1. 个人信息、伴学角色与学习语言设置（原顶部内容全部收纳至此，清爽不占地） -->
+    <div class="card">
+      <div class="row-between">
+        <div class="row" style="gap:12px">
+          <div id="profileCharAvatar" style="width:48px;height:48px;border-radius:50%;background:var(--accent);color:var(--accent-fg);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800">🌙</div>
+          <div>
+            <div style="font-size:16px;font-weight:800" id="profileCharName">伴学搭档：星野理央</div>
+            <div style="font-size:12px;color:var(--text-sub)" id="profileCharQuote">「背完今天的词，去商城抽一篇我们的新番外吧。」</div>
+          </div>
+        </div>
+        <button type="button" class="btn ghost sm" id="btnOpenThemeDrawer">🎨 外观设置</button>
+      </div>
+
+      <div class="row mt-3" style="gap:10px;flex-wrap:wrap">
+        <div style="flex:1;min-width:140px">
+          <label style="font-size:11.5px;color:var(--text-sub);font-weight:700">切换伴学角色：</label>
+          <select class="select-field mt-2" id="profileCharSelect"></select>
+        </div>
+        <div style="flex:1;min-width:140px">
+          <label style="font-size:11.5px;color:var(--text-sub);font-weight:700">切换学习语言：</label>
+          <select class="select-field mt-2" id="profileLangSelect"></select>
+        </div>
+      </div>
+
+      <div class="row mt-3" style="gap:8px">
+        <div class="card-sm" style="flex:1;text-align:center;background:var(--accent-soft)">
+          <div style="font-size:20px;font-weight:900" id="profileStarlightText">120</div>
+          <div style="font-size:11.5px;color:var(--text-sub)">🌟 星光值 (1词=1星光)</div>
+        </div>
+        <div class="card-sm" style="flex:1;text-align:center;background:var(--accent-soft)">
+          <div style="font-size:20px;font-weight:900" id="profileShardText">10</div>
+          <div style="font-size:11.5px;color:var(--text-sub)">🧸 绒毛碎片 (重复转化)</div>
+        </div>
+        <div class="card-sm" style="flex:1;text-align:center;background:var(--accent-soft)">
+          <div style="font-size:20px;font-weight:900" id="profileStreakText">4 天</div>
+          <div style="font-size:11.5px;color:var(--text-sub)">🔥 连续学习</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. 每日签到与免签休息日（无压力轻养成） -->
+    <div class="card">
+      <div class="row-between">
+        <strong style="font-size:15px">📅 本周学习签到</strong>
+        <div class="row">
+          <button type="button" class="btn ghost sm" id="btnProfileRestDay">🌿 免签休息日</button>
+          <button type="button" class="btn sm" id="btnProfileSignToday">签到 +5🌟</button>
+        </div>
+      </div>
+      <div class="week-row" id="profileWeekGrid"></div>
+      <p style="font-size:11.5px;color:var(--text-sub)">断签绝不倒扣星光值；每背完 1 个单词直接奖励 1 星光值。</p>
+    </div>
+
+    <!-- 3. 星光值兑换商城（含多世界观/日常同人/论坛体吐槽文字小剧场盲盒） -->
+    <div class="card">
+      <div class="row-between">
+        <div>
+          <strong style="font-size:15px">🎁 星光值兑换商店</strong>
+          <div style="font-size:12px;color:var(--text-sub)">抽取多世界观文字小剧场（含论坛体吐槽/ABO/奇幻/日常甜饼）、穿搭、植物与玩偶</div>
+        </div>
+        <button type="button" class="btn ghost sm" id="btnProfileShardRedeem">碎片保底(30)</button>
+      </div>
+
+      <div class="review-grid mt-3" id="profileShopGrid"></div>
+
+      <!-- 已解锁的随机文字小剧场阅读器 & 藏品柜 -->
+      <div class="mt-4" style="padding-top:14px;border-top:1px solid var(--card-border)">
+        <div class="row-between">
+          <strong style="font-size:14px">📖 已抽到的文字小剧场 & 养成藏品（点击即可阅读全文）</strong>
+          <span class="tag" id="unlockedFictionCountTag">已藏 2 篇</span>
+        </div>
+        <div id="unlockedTheaterArchiveList" class="mt-2" style="display:flex;flex-direction:column;gap:8px"></div>
+        <div id="unlockedItemsTagList" class="row mt-2" style="flex-wrap:wrap"></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- 底部精简四栏导航 -->
+<nav class="bottom-nav" aria-label="主导航">
+  <button type="button" class="nav-tab active" id="navTabStudy">📚 学习</button>
+  <button type="button" class="nav-tab" id="navTabTheater">🎭 小剧场</button>
+  <button type="button" class="nav-tab" id="navTabNotebook">📝 词库笔记</button>
+  <button type="button" class="nav-tab" id="navTabProfile">👤 个人</button>
+</nav>
+
+<!-- ==================== 弹窗 1：词书学习计划制定弹窗 ==================== -->
+<div id="planModal" class="modal-mask hidden">
+  <div class="modal-card">
+    <div class="row-between">
+      <h3 style="font-size:16.5px;font-weight:900">📅 制定词书学习计划</h3>
+      <button type="button" class="btn ghost sm" id="btnClosePlanModal">关闭 ✕</button>
+    </div>
+    <p style="font-size:12.5px;color:var(--text-sub);margin-top:6px" id="planModalBookName">
+      当前选择：《雅思核心高频词书 (IELTS)》
+    </p>
+
+    <div class="mt-3">
+      <label style="font-size:13px;font-weight:700">选择每天背诵单词数量：</label>
+      <div class="row mt-2" style="flex-wrap:wrap" id="dailyQuotaButtons">
+        <button type="button" class="btn ghost sm" data-quota="5">5 词/天</button>
+        <button type="button" class="btn sm" data-quota="10">10 词/天</button>
+        <button type="button" class="btn ghost sm" data-quota="15">15 词/天</button>
+        <button type="button" class="btn ghost sm" data-quota="20">20 词/天</button>
+        <button type="button" class="btn ghost sm" data-quota="30">30 词/天</button>
+      </div>
+    </div>
+
+    <div class="card-sm mt-3" style="background:var(--accent-soft);text-align:center">
+      <div style="font-size:12px;color:var(--text-sub)">按此进度计算</div>
+      <div style="font-size:20px;font-weight:900;margin-top:4px" id="planModalEstimateText">预计 2 天背完本词书</div>
+    </div>
+
+    <div class="row mt-4">
+      <button type="button" class="btn lg" id="btnConfirmBookPlan">✅ 确认计划并开始使用此词书</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 弹窗 2：粘贴文本/CSV 自建词书弹窗 ==================== -->
+<div id="pasteBookModal" class="modal-mask hidden">
+  <div class="modal-card">
+    <div class="row-between">
+      <h3 style="font-size:16px;font-weight:900">📥 粘贴批量创建词书（零 Token）</h3>
+      <button type="button" class="btn ghost sm" id="btnClosePasteBookModal">关闭 ✕</button>
+    </div>
+    <p style="font-size:12px;color:var(--text-sub);margin-top:4px">
+      每行一个单词，格式支持：<code>单词 释义</code> 或 <code>单词,音标,释义,例句</code>。
+    </p>
+    <input type="text" class="input-field mt-2" id="customBookTitleInput" placeholder="输入新词书名称（如：我的四六级高频词书）" />
+    <textarea class="textarea-field mt-2" id="customBookRawInput" rows="6" placeholder="ambition 雄心；抱负&#10;resilient 有韧性的；能迅速恢复的&#10;inevitable 不可避免的"></textarea>
+    <div class="row mt-3" style="justify-content:flex-end">
+      <button type="button" class="btn" id="btnConfirmCreateCustomBook">创建并导入词书</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 弹窗 3：手动添加单个单词到当前词书 ==================== -->
+<div id="manualWordModal" class="modal-mask hidden">
+  <div class="modal-card">
+    <div class="row-between">
+      <h3 style="font-size:16px;font-weight:900">＋ 添加单词到当前词书</h3>
+      <button type="button" class="btn ghost sm" id="btnCloseManualWordModal">关闭 ✕</button>
+    </div>
+    <input type="text" class="input-field mt-2" id="manualWordInput" placeholder="外语单词拼写（必填）" />
+    <input type="text" class="input-field mt-2" id="manualPhoneticInput" placeholder="音标 / 假名 / 重音（选填）" />
+    <input type="text" class="input-field mt-2" id="manualPosInput" placeholder="词性，如 n. / v. / adj." />
+    <input type="text" class="input-field mt-2" id="manualMeaningInput" placeholder="中文释义（必填）" />
+    <input type="text" class="input-field mt-2" id="manualFamilyInput" placeholder="同词族变形（如 create:创造, creative:有创造力的）" />
+    <input type="text" class="input-field mt-2" id="manualExampleInput" placeholder="英文/外语例句（选填）" />
+    <div class="row mt-3" style="justify-content:flex-end">
+      <button type="button" class="btn" id="btnConfirmManualWord">保存入库</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 弹窗 4：🎨 外观美化设置（含 INS 极简黑白默认） ==================== -->
+<div id="themeDrawerModal" class="modal-mask hidden">
+  <div class="modal-card">
+    <div class="row-between">
+      <h3 style="font-size:16px;font-weight:900">🎨 外观与主题设置</h3>
+      <button type="button" class="btn ghost sm" id="btnCloseThemeDrawer">关闭 ✕</button>
+    </div>
+    <div class="mt-3">
+      <label style="font-size:12.5px;font-weight:700">预设风格（点击即刻切换）：</label>
+      <div class="row mt-2" style="flex-wrap:wrap" id="themeStyleButtons">
+        <button type="button" class="btn sm" data-style="ins_bw">🖤 INS 极简黑白 (默认)</button>
+        <button type="button" class="btn ghost sm" data-style="ins_dark">🌑 极夜纯黑</button>
+        <button type="button" class="btn ghost sm" data-style="starlight">🌌 星夜蓝紫</button>
+        <button type="button" class="btn ghost sm" data-style="sakura">🌸 樱花手账</button>
+        <button type="button" class="btn ghost sm" data-style="matcha">🍵 森系薄荷</button>
+      </div>
+    </div>
+    <div class="mt-3">
+      <label style="font-size:12.5px;font-weight:700">自定义背景壁纸 URL（选填）：</label>
+      <input type="text" class="input-field mt-2" id="themeWallpaperInput" placeholder="粘贴图片地址，留空则保持纯净背景" />
+    </div>
+    <div class="mt-3">
+      <label style="font-size:12.5px;font-weight:700">自定义 CSS 代码（选填）：</label>
+      <textarea class="textarea-field mt-2" id="themeCustomCssInput" rows="3" placeholder="可在此粘贴任意自定义 CSS 样式…"></textarea>
+    </div>
+    <div class="row mt-3" style="justify-content:flex-end">
+      <button type="button" class="btn" id="btnSaveThemeConfig">保存外观</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 弹窗 5：商店随机文字小剧场全文阅读弹窗 ==================== -->
+<div id="fictionReaderModal" class="modal-mask hidden">
+  <div class="modal-card">
+    <div class="row-between">
+      <span class="tag" id="fictionReaderTag">随机文字小剧场</span>
+      <button type="button" class="btn ghost sm" id="btnCloseFictionReader">关闭 ✕</button>
+    </div>
+    <h3 style="font-size:16.5px;font-weight:900;margin-top:10px" id="fictionReaderTitle"></h3>
+    <div id="fictionReaderBody" style="margin-top:12px;font-size:14px;line-height:1.75;white-space:pre-wrap;background:var(--accent-soft);padding:14px;border-radius:12px"></div>
+  </div>
+</div>
+
+<script>
+/*
+================================================================================
+  🖤 【小白傻瓜美化修改区 · 第 2 部分：内置词书、多世界观文字小剧场与商店配置】 🖤
+  内置词书与记忆系统完全在本地运行，零 AI Token 消耗！
+================================================================================
+*/
+(function () {
+  var STORAGE_KEY = "starling_academy_v2_state";
+  var api = window.AiPhone || null;
+
+  var LANGUAGES = [
+    { code: "en", name: "🇬🇧 英语 EN", tts: "en-US" },
+    { code: "ja", name: "🇯🇵 日语 JA", tts: "ja-JP" },
+    { code: "ru", name: "🇷🇺 俄语 RU", tts: "ru-RU" },
+    { code: "ko", name: "🇰🇷 韩语 KO", tts: "ko-KR" }
+  ];
+
+  // 内置零 Token 精选词书（涵盖雅思、托福、成人高考、四六级及日/俄/韩核心词书）
+  var BUILTIN_BOOKS = [
+    {
+      id: "book_en_ielts",
+      lang: "en",
+      title: "雅思核心高频词书 (IELTS)",
+      desc: "涵盖学术阅读与口语高频词族变形",
+      words: [
+        { id: "w_create", word: "create", lemma: "create", pos: "v.", phonetic: "/kriˈeɪt/", meaning: "创造；创作；产生", example: "If I could create a work that belongs only to us, what would it be?", family: [{ word: "create", pos: "v.", meaning: "创造" }, { word: "creative", pos: "adj.", meaning: "有创造力的" }, { word: "creativity", pos: "n.", meaning: "创造力" }, { word: "creatively", pos: "adv.", meaning: "创造性地" }] },
+        { id: "w_serendipity", word: "serendipity", lemma: "serendipity", pos: "n.", phonetic: "/ˌser.ənˈdɪp.ə.ti/", meaning: "意外发现美好事物的运气；机缘巧合", example: "Meeting you here was pure serendipity.", family: [{ word: "serendipity", pos: "n.", meaning: "意外发现珍宝的运气" }, { word: "serendipitous", pos: "adj.", meaning: "偶然美好的" }] },
+        { id: "w_resilient", word: "resilient", lemma: "resilient", pos: "adj.", phonetic: "/rɪˈzɪl.jənt/", meaning: "有韧性的；能迅速恢复的", example: "She remained resilient despite all the challenges.", family: [{ word: "resilient", pos: "adj.", meaning: "有韧性的" }, { word: "resilience", pos: "n.", meaning: "恢复力；韧性" }] },
+        { id: "w_inevitable", word: "inevitable", lemma: "inevitable", pos: "adj.", phonetic: "/ɪˈnev.ɪ.tə.bəl/", meaning: "不可避免的；必然发生的", example: "Change is an inevitable part of growing up together.", family: [{ word: "inevitable", pos: "adj.", meaning: "不可避免的" }, { word: "inevitably", pos: "adv.", meaning: "不可避免地" }] },
+        { id: "w_profound", word: "profound", lemma: "profound", pos: "adj.", phonetic: "/prəˈfaʊnd/", meaning: "深远的；深刻的；渊博的", example: "Your words left a profound impression on my heart.", family: [{ word: "profound", pos: "adj.", meaning: "深刻的" }, { word: "profoundly", pos: "adv.", meaning: "深深地" }] },
+        { id: "w_eloquent", word: "eloquent", lemma: "eloquent", pos: "adj.", phonetic: "/ˈel.ə.kwənt/", meaning: "雄辩的；有说服力的；富于表现力的", example: "His quiet gaze was more eloquent than a thousand words.", family: [{ word: "eloquent", pos: "adj.", meaning: "有说服力的" }, { word: "eloquence", pos: "n.", meaning: "口才；流利" }] }
+      ]
+    },
+    {
+      id: "book_en_toefl",
+      lang: "en",
+      title: "托福核心词汇 (TOEFL iBT)",
+      desc: "北美校园与学术讲座高频核心词汇",
+      words: [
+        { id: "w_illuminate", word: "illuminate", lemma: "illuminate", pos: "v.", phonetic: "/ɪˈluː.mɪ.neɪt/", meaning: "照亮；阐明；启发", example: "Starlight began to illuminate the quiet campus path.", family: [{ word: "illuminate", pos: "v.", meaning: "照亮；阐明" }, { word: "illumination", pos: "n.", meaning: "照明；启迪" }] },
+        { id: "w_ambiguous", word: "ambiguous", lemma: "ambiguous", pos: "adj.", phonetic: "/æmˈbɪɡ.ju.əs/", meaning: "模棱两可的；含糊不清的", example: "He gave me an ambiguous smile that made my heart race.", family: [{ word: "ambiguous", pos: "adj.", meaning: "含糊的" }, { word: "ambiguity", pos: "n.", meaning: "模棱两可" }] },
+        { id: "w_sustain", word: "sustain", lemma: "sustain", pos: "v.", phonetic: "/səˈsteɪn/", meaning: "维持；支撑；承受", example: "Warm companionship can sustain us through long winters.", family: [{ word: "sustain", pos: "v.", meaning: "维持" }, { word: "sustainable", pos: "adj.", meaning: "可持续的" }] },
+        { id: "w_authentic", word: "authentic", lemma: "authentic", pos: "adj.", phonetic: "/ɔːˈθen.tɪk/", meaning: "真正的；真实的；可信的", example: "With you, I can always be my most authentic self.", family: [{ word: "authentic", pos: "adj.", meaning: "真实的" }, { word: "authenticity", pos: "n.", meaning: "真实性" }] }
+      ]
+    },
+    {
+      id: "book_en_adult",
+      lang: "en",
+      title: "成人高考 / 专升本核心词书",
+      desc: "紧扣成考与专升本考纲必背基础与高频词",
+      words: [
+        { id: "w_accompany", word: "accompany", lemma: "accompany", pos: "v.", phonetic: "/əˈkʌm.pə.ni/", meaning: "陪伴；陪同；伴随", example: "I promised to accompany you until you finish every chapter.", family: [{ word: "accompany", pos: "v.", meaning: "陪伴" }, { word: "companion", pos: "n.", meaning: "同伴；搭档" }] },
+        { id: "w_Inspire", word: "inspire", lemma: "inspire", pos: "v.", phonetic: "/ɪnˈspaɪər/", meaning: "鼓舞；赋予灵感；启发", example: "You always inspire me to become a better person.", family: [{ word: "inspire", pos: "v.", meaning: "启发" }, { word: "inspiration", pos: "n.", meaning: "灵感" }, { word: "inspiring", pos: "adj.", meaning: "鼓舞人心的" }] },
+        { id: "w_precious", word: "precious", lemma: "precious", pos: "adj.", phonetic: "/ˈpreʃ.əs/", meaning: "珍贵的；宝贵的", example: "Every minute spent studying with you is precious.", family: [{ word: "precious", pos: "adj.", meaning: "宝贵的" }, { word: "preciously", pos: "adv.", meaning: "珍贵地" }] },
+        { id: "w_achieve", word: "achieve", lemma: "achieve", pos: "v.", phonetic: "/əˈtʃiːv/", meaning: "实现；取得；达到", example: "Step by step, we will achieve our goals together.", family: [{ word: "achieve", pos: "v.", meaning: "达成" }, { word: "achievement", pos: "n.", meaning: "成就；成绩" }] },
+        { id: "w_confident", word: "confident", lemma: "confident", pos: "adj.", phonetic: "/ˈkɒn.fɪ.dənt/", meaning: "自信的；有把握的", example: "Take a deep breath and be confident in your memory.", family: [{ word: "confident", pos: "adj.", meaning: "自信的" }, { word: "confidence", pos: "n.", meaning: "信心" }] }
+      ]
+    },
+    {
+      id: "book_ja_jlpt",
+      lang: "ja",
+      title: "日语 JLPT 核心词书 (N5-N2)",
+      desc: "包含假名读音、汉字与动词活用词族",
+      words: [
+        { id: "w_ja_tsukuru", word: "創る", lemma: "創る", pos: "五段动词", phonetic: "つくる · tsukuru", meaning: "创造；制作；创作", example: "二人だけの思い出を一緒に創りましょう。", family: [{ word: "創る", pos: "原形", meaning: "创造" }, { word: "創ります", pos: "ます形", meaning: "创造(敬体)" }, { word: "創作", pos: "名词", meaning: "创作" }] },
+        { id: "w_ja_komorebi", word: "木漏れ日", lemma: "木漏れ日", pos: "名词", phonetic: "こもれび · komorebi", meaning: "树叶缝隙间洒落的阳光", example: "木漏れ日の下で本を読むのが好きです。", family: [{ word: "木漏れ日", pos: "名词", meaning: "叶间阳光" }, { word: "漏れる", pos: "一段动词", meaning: "漏出；透过" }] },
+        { id: "w_ja_yakusoku", word: "約束", lemma: "約束", pos: "名/サ变", phonetic: "やくそく · yakusoku", meaning: "约定；诺言", example: "また明日も一緒に勉強するって約束だよ。", family: [{ word: "約束", pos: "名词", meaning: "约定" }, { word: "約束する", pos: "动词", meaning: "作出约定" }] }
+      ]
+    },
+    {
+      id: "book_ru_core",
+      lang: "ru",
+      title: "俄语核心词汇 (ТРКИ 基础与进阶)",
+      desc: "包含重音标记、完成体/未完成体与名词变格",
+      words: [
+        { id: "w_ru_sozdavat", word: "создавать", lemma: "создава́ть", pos: "未完成体动词", phonetic: "[səzdɐˈvatʲ]", meaning: "创造；创立；建立", example: "Мы любим создавать новые истории вместе.", family: [{ word: "создавать", pos: "未完成体", meaning: "创造(过程)" }, { word: "создать", pos: "完成体", meaning: "创造出(结果)" }, { word: "творчество", pos: "名词", meaning: "创作；创造力" }] },
+        { id: "w_ru_mechta", word: "мечта", lemma: "мечта́", pos: "阴性名词", phonetic: "[mʲɪtɕˈta]", meaning: "梦想；愿望", example: "Это наша общая красивая мечта.", family: [{ word: "мечта", pos: "名词", meaning: "梦想" }, { word: "мечтать", pos: "动词", meaning: "梦想；憧憬" }] }
+      ]
+    },
+    {
+      id: "book_ko_topik",
+      lang: "ko",
+      title: "韩语 TOPIK 核心词汇",
+      desc: "涵盖韩语日常高频与敬语活用词族",
+      words: [
+        { id: "w_ko_changjo", word: "창조하다", lemma: "창조하다", pos: "动词", phonetic: "[chang-jo-ha-da]", meaning: "创造；创立", example: "우리만의 특별한 이야기를 함께 창조해요.", family: [{ word: "창조하다", pos: "原形", meaning: "创造" }, { word: "창조적", pos: "冠词/名", meaning: "有创造性的" }, { word: "창의력", pos: "名词", meaning: "创造力" }] },
+        { id: "w_ko_seolleda", word: "설레다", lemma: "설레다", pos: "动词", phonetic: "[seol-le-da]", meaning: "心动；小鹿乱撞；激动", example: "너와 함께 공부할 때마다 마음이 설레요.", family: [{ word: "설레다", pos: "动词", meaning: "心动" }, { word: "설렘", pos: "名词形", meaning: "心动的感觉" }] }
+      ]
+    }
+  ];
+
+  // 商城 30 星光抽取的「多世界观/日常同人/匿名论坛帖子吐槽」文字小剧场题库
+  var RANDOM_TEXT_THEATER_POOL = [
+    {
+      id: "fic_forum_1",
+      tag: "📱 匿名论坛体吐槽",
+      title: "【树洞】818那个每天监督我背雅思单词的傲娇搭档 [Hot 🔥]",
+      body: "1L 楼主 (匿名)\n如题！当初选成人高考和雅思词书的时候我信誓旦旦定了每天30个词，结果第一天晚上就开始咬笔杆。\n某人表面上冷着脸把热牛奶往我桌上一放：「连 resilient（有韧性的）都拼错了，今晚别想赖账。」\n结果第二天我翻开笔记本，发现他半夜偷偷用红笔把所有同词族派生词都画了思维导图，末尾还夹了一张便签：「背完这组给奖励。」\n\n2L 吃瓜群众\n这是什么绝美伴学文学！楼主快承认你其实就是为了听他念例句才点『不认识』的吧！\n\n3L 疑似当事人\n……论坛少刷，先把今天的拼写默写交了。"
+    },
+    {
+      id: "fic_cyber_2",
+      tag: "🌌 跨世界观·赛博夜航",
+      title: "《霓虹雨夜的唯一密钥》",
+      body: "第7区全息雨幕落下时，你的终端屏幕突然亮起一串加密字符。\n他俯身靠在你的椅背旁，指尖在虚拟键盘上敲击出清脆的回响：「听好了，这扇门的密码是我们今天刚背过的那组词——serendipity（机缘巧合）。」\n「为什么选这个词？」\n「因为在几千万条数据流里偏偏与你相遇，本就是宇宙最不可复制的奇迹。」"
+    },
+    {
+      id: "fic_daily_3",
+      tag: "☕ 日常同人·午后甜饼",
+      title: "《每背对一个词就靠近一厘米》",
+      body: "周日下午的阳光把书页晒得暖融融的。\n为了治你的犯困，他提出了一个危险又让人心跳加速的规则：每当你在记忆卡片上点一次「😎 认识」并通过拼写检测，他就允许你提一个过分的小要求。\n当你一口气把今天计划的 10 个单词全部清零时，他主动合上词书，耳尖微红地看着你：「恭喜完成今日学习……现在，轮到你兑现奖励了。」"
+    },
+    {
+      id: "fic_forum_4",
+      tag: "💬 校园论坛热帖",
+      title: "【求助】搭档在我点击『不认识』三次后叹气揉我头发怎么办",
+      body: "1L 词书苦主\n今天背 create 词族，creative 和 creativity 老是在完形填空里填反。\n我点第三次『不认识』的时候都不敢抬头看他了，结果他不但没凶我，反而低笑了一声，顺手揉乱了我的头发：「笨蛋，形容词修饰你现在亮晶晶的眼睛，名词用来形容我们一起造梦的能力，这下记住了吗？」\n救命，我现在满脑子都是他的声音，单词倒是瞬间刻进DNA了！"
+    }
+  ];
+
+  var DEFAULT_CHARACTERS = [
+    { id: "char_rio", name: "星野理央", relation: "温柔伴学搭档", avatar: "🌙", quote: "「不用急，哪怕点十次『不认识』，我也会陪你直到全部记住。」" },
+    { id: "char_alice", name: "艾莉丝", relation: "文学社同桌", avatar: "🎀", quote: "「今天背完计划的单词，我们去抽一篇新的论坛体小剧场吧！」" },
+    { id: "char_shen", name: "沈墨", relation: "推理社学长", avatar: "🖤", quote: "「先求认识，再求拼写，记忆曲线不会骗人。」" }
+  ];
+
+  function loadState() {
+    var def = {
+      activeLang: "en",
+      activeBookId: "book_en_ielts",
+      dailyQuota: 10,
+      activeCharId: "char_rio",
+      characters: DEFAULT_CHARACTERS.slice(),
+      books: BUILTIN_BOOKS.slice(),
+      // 本地记忆引擎数据库：key = wordId, value = { status: 'new'|'learning'|'known', reps: 0, lapses: 0, lastDate: '', scores: {spelling,listening,cloze,sense} }
+      memoryDb: {},
+      todayLearnedIds: [],
+      starlight: 120,
+      shards: 10,
+      streak: 4,
+      signedToday: false,
+      weekDays: [
+        { day: "一", status: "done", text: "+5" },
+        { day: "二", status: "done", text: "+5" },
+        { day: "三", status: "done", text: "+5" },
+        { day: "四", status: "done", text: "+5" },
+        { day: "五", status: "pending", text: "—" },
+        { day: "六", status: "pending", text: "—" },
+        { day: "日", status: "pending", text: "—" }
+      ],
+      unlockedFictions: [
+        RANDOM_TEXT_THEATER_POOL[0],
+        RANDOM_TEXT_THEATER_POOL[2]
+      ],
+      unlockedItems: [
+        "👗 极简黑白学院衬衫",
+        "🌱 白瓷盆多肉 (Lv.2)",
+        "🧸 奶油泰迪熊玩偶"
+      ],
+      notes: [
+        {
+          id: "n1",
+          title: "create 词族变形与完形填空技巧",
+          body: "create (v. 创造) / creative (adj. 有创造力的) / creativity (n. 创造力) / creatively (adv. 创造性地)。星野理央批注：修饰名词用 creative，作宾语用 creativity！",
+          date: "今日"
+        }
+      ],
+      theme: {
+        style: "ins_bw",
+        wallpaper: "",
+        customCss: ""
+      }
+    };
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        var parsed = JSON.parse(raw);
+        return Object.assign({}, def, parsed);
+      }
+    } catch (e) {}
+    return def;
+  }
+
+  var state = loadState();
+
+  function saveState() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (e) {}
+  }
+
+  function $(id) {
+    return document.getElementById(id);
+  }
+
+  var toastTimer = null;
+  function showToast(msg) {
+    var b = $("toastBanner");
+    if (b) {
+      b.textContent = msg;
+      b.classList.remove("hidden");
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () {
+        b.classList.add("hidden");
+      }, 2500);
+    }
+    if (api && api.ui && typeof api.ui.toast === "function") {
+      try { api.ui.toast(msg).catch(function () {}); } catch (e) {}
+    }
+  }
+
+  function getActiveBook() {
+    var b = state.books.find(function (x) { return x.id === state.activeBookId; });
+    if (!b) {
+      var langBooks = state.books.filter(function (x) { return x.lang === state.activeLang; });
+      b = langBooks[0] || state.books[0];
+      if (b) state.activeBookId = b.id;
+    }
+    return b;
+  }
+
+  function getActiveChar() {
+    return state.characters.find(function (c) { return c.id === state.activeCharId; }) || state.characters[0];
+  }
+
+  function getWordMem(wordId) {
+    if (!state.memoryDb[wordId]) {
+      state.memoryDb[wordId] = {
+        status: "new",
+        reps: 0,
+        lapses: 0,
+        scores: { spelling: 0, listening: 0, cloze: 0, sense: 0 }
+      };
+    }
+    return state.memoryDb[wordId];
+  }
+
+  function speakWord(text, langCode) {
+    if (!text) return;
+    var l = LANGUAGES.find(function (x) { return x.code === (langCode || state.activeLang); });
+    var tts = (l && l.tts) || "en-US";
+    try {
+      if ("speechSynthesis" in window) {
+        window.speechSynthesis.cancel();
+        var u = new SpeechSynthesisUtterance(text);
+        u.lang = tts;
+        u.rate = 0.94;
+        window.speechSynthesis.speak(u);
+      }
+    } catch (e) {}
+    showToast("🔊 朗读：" + text);
+  }
+
+  // ==================== 外观主题切换（默认 INS 极简黑白） ====================
+  var STYLE_THEMES = {
+    ins_bw: {
+      bgPrimary: "#f7f7f8",
+      bgSecondary: "#ececef",
+      cardBg: "#ffffff",
+      cardBorder: "#e4e4e7",
+      textMain: "#111113",
+      textSub: "#71717a",
+      accent: "#18181b",
+      accentFg: "#ffffff",
+      accentSoft: "#f4f4f5"
+    },
+    ins_dark: {
+      bgPrimary: "#0a0a0c",
+      bgSecondary: "#18181b",
+      cardBg: "#121215",
+      cardBorder: "#27272a",
+      textMain: "#fafafa",
+      textSub: "#a1a1aa",
+      accent: "#fafafa",
+      accentFg: "#09090b",
+      accentSoft: "#1f1f23"
+    },
+    starlight: {
+      bgPrimary: "#0f1221",
+      bgSecondary: "#1a1f36",
+      cardBg: "#171c30",
+      cardBorder: "#2a3152",
+      textMain: "#f3f5ff",
+      textSub: "#9aa3c7",
+      accent: "#7c6cff",
+      accentFg: "#ffffff",
+      accentSoft: "#232947"
+    },
+    sakura: {
+      bgPrimary: "#fff7f9",
+      bgSecondary: "#ffeaf0",
+      cardBg: "#ffffff",
+      cardBorder: "#f9d5e0",
+      textMain: "#43202d",
+      textSub: "#966577",
+      accent: "#e85d88",
+      accentFg: "#ffffff",
+      accentSoft: "#fff0f4"
+    },
+    matcha: {
+      bgPrimary: "#f4f8f5",
+      bgSecondary: "#e4efe8",
+      cardBg: "#ffffff",
+      cardBorder: "#d2e3d8",
+      textMain: "#1a3326",
+      textSub: "#5e7d6c",
+      accent: "#29855a",
+      accentFg: "#ffffff",
+      accentSoft: "#edf5f0"
+    }
+  };
+
+  function applyTheme() {
+    var st = (state.theme && state.theme.style) || "ins_bw";
+    var cfg = STYLE_THEMES[st] || STYLE_THEMES.ins_bw;
+    var root = document.documentElement.style;
+    root.setProperty("--bg-primary", cfg.bgPrimary);
+    root.setProperty("--bg-secondary", cfg.bgSecondary);
+    root.setProperty("--card-bg", cfg.cardBg);
+    root.setProperty("--card-border", cfg.cardBorder);
+    root.setProperty("--text-main", cfg.textMain);
+    root.setProperty("--text-sub", cfg.textSub);
+    root.setProperty("--accent", cfg.accent);
+    root.setProperty("--accent-fg", cfg.accentFg);
+    root.setProperty("--accent-soft", cfg.accentSoft);
+    if (state.theme && state.theme.wallpaper) {
+      root.setProperty("--bg-wallpaper", "url('" + state.theme.wallpaper + "')");
+    } else {
+      root.setProperty("--bg-wallpaper", "none");
+    }
+    $("userCustomCssSlot").textContent = (state.theme && state.theme.customCss) || "";
+  }
+
+  // ==================== 页面与子页面路由切换 ====================
+  var ALL_SECTIONS = [
+    "mainTabStudy",
+    "subpageBookSelect",
+    "subpageMemorize",
+    "subpageStudyComplete",
+    "subpageQuizMode",
+    "mainTabTheater",
+    "mainTabNotebook",
+    "mainTabProfile"
+  ];
+
+  function showSection(sectionId, navKey) {
+    ALL_SECTIONS.forEach(function (id) {
+      var el = $(id);
+      if (el) el.classList.toggle("hidden", id !== sectionId);
+    });
+    if (navKey) {
+      $("navTabStudy").classList.toggle("active", navKey === "study");
+      $("navTabTheater").classList.toggle("active", navKey === "theater");
+      $("navTabNotebook").classList.toggle("active", navKey === "notebook");
+      $("navTabProfile").classList.toggle("active", navKey === "profile");
+    }
+    window.scrollTo(0, 0);
+  }
+
+  // ==================== 1. 渲染主学习页 ====================
+  function renderStudyHome() {
+    var book = getActiveBook();
+    var langObj = LANGUAGES.find(function (l) { return l.code === state.activeLang; }) || LANGUAGES[0];
+    var charObj = getActiveChar();
+
+    $("studyHeaderSub").textContent = langObj.name + " · 伴学: " + charObj.name;
+    $("currentBookLangTag").textContent = langObj.name;
+    $("currentBookTitle").textContent = book.title;
+
+    var totalWords = book.words.length;
+    var masteredWords = book.words.filter(function (w) {
+      return getWordMem(w.id).status === "known";
+    }).length;
+
+    var remainingWords = Math.max(0, totalWords - masteredWords);
+    var quota = Math.max(1, Number(state.dailyQuota) || 10);
+    var estDays = Math.max(1, Math.ceil(remainingWords / quota));
+
+    $("currentBookPlanSummary").textContent = remainingWords > 0
+      ? ("每日计划 " + quota + " 词 · 预计 " + estDays + " 天背完（剩余 " + remainingWords + " 词）")
+      : ("🎉 本词书已全部掌握！可点击右上角切换或导入新词书");
+
+    var pct = totalWords > 0 ? Math.round((masteredWords / totalWords) * 100) : 0;
+    $("currentBookProgressBar").style.width = pct + "%";
+    $("bookMasteredCount").textContent = String(masteredWords);
+    $("bookTotalCount").textContent = String(totalWords);
+
+    var todayDone = state.todayLearnedIds.length;
+    $("todayLearnedCountText").textContent = String(todayDone);
+    $("todayTargetCountText").textContent = String(Math.min(quota, totalWords));
+
+    // 已学词池数量与各维度平均正确率
+    var learnedPool = getLearnedWordsForCurrentBook();
+    $("learnedPoolBadge").textContent = "已学词池: " + learnedPool.length + " 词";
+
+    ["spelling", "listening", "cloze", "sense"].forEach(function (mode) {
+      var sum = 0;
+      learnedPool.forEach(function (w) {
+        sum += Number(getWordMem(w.id).scores[mode] || 0);
+      });
+      var avg = learnedPool.length > 0 ? Math.round(sum / learnedPool.length) : 0;
+      var cap = mode.charAt(0).toUpperCase() + mode.slice(1);
+      if ($("badgeAvg" + cap)) $("badgeAvg" + cap).textContent = avg + "%";
+    });
+  }
+
+  // 获取今日已背 + 历史已学词池（保证刷题 100% 符合已学单词，若还没背则取今日待学前几词兜底）
+  function getLearnedWordsForCurrentBook() {
+    var book = getActiveBook();
+    var learned = book.words.filter(function (w) {
+      var m = getWordMem(w.id);
+      return m.status === "known" || m.status === "learning" || state.todayLearnedIds.indexOf(w.id) >= 0;
+    });
+    return learned;
+  }
+
+  function getActiveStudyPoolOrFallback() {
+    var learned = getLearnedWordsForCurrentBook();
+    if (learned.length > 0) return learned;
+    var book = getActiveBook();
+    return book.words.slice(0, Math.min(state.dailyQuota || 5, book.words.length));
+  }
+
+  // ==================== 2. 语种与词书选择页 + 计划弹窗 ====================
+  var pendingPlanBookId = null;
+  var pendingPlanQuota = 10;
+
+  function renderBookSelectPage() {
+    var chipBox = $("bookPageLangChips");
+    chipBox.innerHTML = "";
+    LANGUAGES.forEach(function (l) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "btn sm " + (l.code === state.activeLang ? "" : "ghost");
+      b.textContent = l.name;
+      b.addEventListener("click", function () {
+        state.activeLang = l.code;
+        var firstBook = state.books.find(function (bk) { return bk.lang === l.code; });
+        if (firstBook) state.activeBookId = firstBook.id;
+        saveState();
+        renderBookSelectPage();
+        renderStudyHome();
+      });
+      chipBox.appendChild(b);
+    });
+
+    var listContainer = $("bookListContainer");
+    listContainer.innerHTML = "";
+    var booksForLang = state.books.filter(function (bk) { return bk.lang === state.activeLang; });
+
+    booksForLang.forEach(function (bk) {
+      var item = document.createElement("div");
+      item.className = "book-item" + (bk.id === state.activeBookId ? " selected" : "");
+      var mastered = bk.words.filter(function (w) { return getWordMem(w.id).status === "known"; }).length;
+      var rem = Math.max(0, bk.words.length - mastered);
+      var days = Math.max(1, Math.ceil(rem / (state.dailyQuota || 10)));
+
+      item.innerHTML = '<div>'
+        + '  <div style="font-weight:800;font-size:15px">' + bk.title + (bk.id === state.activeBookId ? ' <span class="tag">当前在学</span>' : '') + '</div>'
+        + '  <div style="font-size:12px;color:var(--text-sub);margin-top:3px">' + (bk.desc || '精选核心词汇') + '</div>'
+        + '  <div style="font-size:12px;margin-top:6px;font-weight:700">共 ' + bk.words.length + ' 词 · 已掌握 ' + mastered + ' 词 · 预计 ' + days + ' 天背完</div>'
+        + '</div>'
+        + '<button type="button" class="btn sm ' + (bk.id === state.activeBookId ? '' : 'ghost') + '">选择此书</button>';
+
+      item.addEventListener("click", function () {
+        openPlanModalForBook(bk.id);
+      });
+      listContainer.appendChild(item);
+    });
+  }
+
+  function openPlanModalForBook(bookId) {
+    pendingPlanBookId = bookId || state.activeBookId;
+    pendingPlanQuota = state.dailyQuota || 10;
+    var bk = state.books.find(function (x) { return x.id === pendingPlanBookId; }) || getActiveBook();
+    $("planModalBookName").textContent = "当前选择：《" + bk.title + "》（共 " + bk.words.length + " 词）";
+    updatePlanModalEstimate();
+    $("planModal").classList.remove("hidden");
+  }
+
+  function updatePlanModalEstimate() {
+    var bk = state.books.find(function (x) { return x.id === pendingPlanBookId; }) || getActiveBook();
+    var mastered = bk.words.filter(function (w) { return getWordMem(w.id).status === "known"; }).length;
+    var rem = Math.max(1, bk.words.length - mastered);
+    var estDays = Math.max(1, Math.ceil(rem / pendingPlanQuota));
+    $("planModalEstimateText").textContent = "每天背 " + pendingPlanQuota + " 词 · 预计 " + estDays + " 天背完";
+
+    var qBtns = $("dailyQuotaButtons").querySelectorAll("[data-quota]");
+    for (var i = 0; i < qBtns.length; i++) {
+      var q = Number(qBtns[i].getAttribute("data-quota"));
+      qBtns[i].className = "btn sm " + (q === pendingPlanQuota ? "" : "ghost");
+    }
+  }
+
+  // 解析用户导入的 TXT / CSV / JSON 词书文本
+  function parseImportedBookText(rawText, fileName) {
+    var cleanTitle = (fileName || "自定义导入词书").replace(/\.(txt|csv|json)$/i, "");
+    var words = [];
+    var trimmed = String(rawText || "").trim();
+    if (!trimmed) return null;
+
+    if (trimmed.charAt(0) === "[" || trimmed.charAt(0) === "{") {
+      try {
+        var j = JSON.parse(trimmed);
+        var arr = Array.isArray(j) ? j : (j.words || []);
+        arr.forEach(function (row, idx) {
+          var w = String(row.word || row.spelling || "").trim();
+          var m = String(row.meaning || row.translation || row.def || "").trim();
+          if (w && m) {
+            words.push({
+              id: "imp_" + Date.now() + "_" + idx,
+              word: w,
+              lemma: String(row.lemma || w),
+              pos: String(row.pos || "词条"),
+              phonetic: String(row.phonetic || ""),
+              meaning: m,
+              example: String(row.example || ("Remember the word " + w + " in context.")),
+              family: Array.isArray(row.family) ? row.family : [{ word: w, pos: String(row.pos || "词条"), meaning: m }]
+            });
+          }
+        });
+      } catch (e) {}
+    }
+
+    if (words.length === 0) {
+      var lines = trimmed.split(/\r?\n/);
+      lines.forEach(function (line, idx) {
+        var l = line.trim();
+        if (!l || l.charAt(0) === "#") return;
+        var parts = l.indexOf(",") >= 0 ? l.split(",") : (l.indexOf("\t") >= 0 ? l.split("\t") : l.split(/\s+/));
+        if (parts.length >= 2) {
+          var w = parts[0].trim();
+          var m = parts.slice(1).join(" ").trim();
+          if (parts.length >= 3 && parts[1].indexOf("/") >= 0) {
+            m = parts.slice(2).join(" ").trim();
+          }
+          if (w && m) {
+            words.push({
+              id: "imp_" + Date.now() + "_" + idx,
+              word: w,
+              lemma: w.toLowerCase(),
+              pos: "核心词",
+              phonetic: "",
+              meaning: m,
+              example: "Let's master the word " + w + " today.",
+              family: [{ word: w, pos: "核心词", meaning: m }]
+            });
+          }
+        }
+      });
+    }
+
+    if (words.length === 0) return null;
+    return {
+      id: "book_custom_" + Date.now(),
+      lang: state.activeLang,
+      title: cleanTitle,
+      desc: "本地导入词书（共 " + words.length + " 词）",
+      words: words
+    };
+  }
+
+  // ==================== 3. 墨墨式今日背诵队列引擎 ====================
+  var studyQueue = [];        // 待背诵词对象队列
+  var knownInSession = [];    // 本轮已点「认识」通过的词 ID
+  var familiarInSession = {}; // 点过「熟悉」的标记
+
+  function startTodayMemorizeSession() {
+    var book = getActiveBook();
+    var quota = Math.max(1, Number(state.dailyQuota) || 10);
+
+    // 优先挑选尚未「认识」的词 + 到期复习的词，凑够今日计划数量
+    var candidates = book.words.filter(function (w) {
+      return getWordMem(w.id).status !== "known";
+    });
+    if (candidates.length === 0) {
+      candidates = book.words.slice();
+    }
+
+    studyQueue = candidates.slice(0, Math.min(quota, candidates.length));
+    knownInSession = [];
+    familiarInSession = {};
+
+    showSection("subpageMemorize", "study");
+    renderMemorizeCard();
+  }
+
+  function renderMemorizeCard() {
+    if (studyQueue.length === 0) {
+      finishTodayMemorizeSession();
+      return;
+    }
+
+    var currentWord = studyQueue[0];
+    var totalTarget = knownInSession.length + studyQueue.length;
+    var famCount = Object.keys(familiarInSession).length;
+
+    $("memorizeHeaderProgress").textContent = "今日背诵 · 进度 " + knownInSession.length + " / " + totalTarget;
+    $("queueKnownCount").textContent = String(knownInSession.length);
+    $("queueFamiliarCount").textContent = String(famCount);
+    $("queueRemainingCount").textContent = String(studyQueue.length);
+
+    var pct = totalTarget > 0 ? Math.round((knownInSession.length / totalTarget) * 100) : 0;
+    $("memorizeQueueBar").style.width = pct + "%";
+
+    $("studyCardPosTag").textContent = currentWord.pos || "核心词";
+    $("studyCardWord").textContent = currentWord.word;
+    $("studyCardPhonetic").textContent = (currentWord.phonetic || "") + " · 词元: " + (currentWord.lemma || currentWord.word);
+    $("studyCardMeaning").textContent = currentWord.meaning;
+    $("studyCardExample").textContent = "例句：" + (currentWord.example || "");
+
+    var famText = (currentWord.family || []).map(function (f) {
+      return f.word + " (" + f.pos + " " + f.meaning + ")";
+    }).join(" · ");
+    $("studyCardFamilyLine").textContent = famText ? ("同词族记忆：" + famText) : "";
+
+    // 默认先收起释义让你像墨墨一样回想，点击按钮或选不认识立即展开
+    $("studyCardRevealedContent").classList.add("hidden");
+    $("btnRevealMeaning").classList.remove("hidden");
+  }
+
+  function handleMemorizeChoice(choice) {
+    if (studyQueue.length === 0) return;
+    var currentWord = studyQueue.shift();
+    var mem = getWordMem(currentWord.id);
+
+    if (choice === "know") {
+      // 真正认识：移出队列，记录到今日已背 & 本地记忆库
+      mem.status = "known";
+      mem.reps = (mem.reps || 0) + 1;
+      delete familiarInSession[currentWord.id];
+      if (knownInSession.indexOf(currentWord.id) === -1) {
+        knownInSession.push(currentWord.id);
+      }
+      if (state.todayLearnedIds.indexOf(currentWord.id) === -1) {
+        state.todayLearnedIds.push(currentWord.id);
+      }
+      saveState();
+      renderMemorizeCard();
+    } else if (choice === "familiar") {
+      // 熟悉（模糊）：先展开看一眼或排入队列中后部重现，必须再次巩固到「认识」才算过关
+      mem.status = "learning";
+      familiarInSession[currentWord.id] = true;
+      studyQueue.push(currentWord);
+      saveState();
+      showToast("🤔 已标记「熟悉」，稍后将再次出现巩固直到完全认识！");
+      renderMemorizeCard();
+    } else {
+      // 不认识：记录遗忘次数，立刻排到队尾反复重现
+      mem.status = "learning";
+      mem.lapses = (mem.lapses || 0) + 1;
+      familiarInSession[currentWord.id] = true;
+      studyQueue.push(currentWord);
+      saveState();
+      showToast("😣 已加入强化记忆循环，稍后重现！");
+      renderMemorizeCard();
+    }
+  }
+
+  function finishTodayMemorizeSession() {
+    var count = Math.max(1, knownInSession.length);
+    // 1 个单词 = 1 星光值，背多少个给多少
+    state.starlight += count;
+    saveState();
+
+    var charObj = getActiveChar();
+    $("completeRewardDisplay").textContent = "+" + count + " 🌟 星光值（本次背完 " + count + " 词）";
+    $("completeEncourageText").textContent = charObj.name + "：「恭喜你完成今天的学习！今天这 " + count + " 个单词你全都坚持背到了『认识』，要不要趁热打铁去拼写一下？」";
+    showSection("subpageStudyComplete", "study");
+    renderStudyHome();
+  }
+
+  // ==================== 4. 独立复习子页面（严格基于今日已背/已学单词出题） ====================
+  var activeQuizMode = "spelling";
+  var quizWordPool = [];
+  var quizIndex = 0;
+  var hintLetterCount = 0;
+
+  function openQuizSubpage(mode) {
+    activeQuizMode = mode;
+    quizWordPool = getActiveStudyPoolOrFallback().slice();
+    quizIndex = 0;
+    hintLetterCount = 0;
+
+    var titles = {
+      spelling: "✍️ 拼写默写专场",
+      listening: "🎧 听力辨词专场",
+      cloze: "🧩 例句完形专场",
+      sense: "🔍 词义辨析专场"
+    };
+    $("quizSubpageTitle").textContent = titles[mode] || "专项复习";
+    showSection("subpageQuizMode", "study");
+    renderQuizItem();
+  }
+
+  function renderQuizItem() {
+    if (quizWordPool.length === 0) return;
+    if (quizIndex >= quizWordPool.length) quizIndex = 0;
+    var wordObj = quizWordPool[quizIndex];
+    hintLetterCount = 0;
+
+    $("quizProgressBadge").textContent = (quizIndex + 1) + " / " + quizWordPool.length;
+    var isFromLearned = getLearnedWordsForCurrentBook().length > 0;
+    $("quizSourceHintTag").textContent = isFromLearned ? "✅ 源自你已背过的单词" : "📖 源自当前计划词池";
+    $("quizFeedbackLine").textContent = "";
+
+    var spellSec = $("quizSpellingSection");
+    var mcqSec = $("quizMcqSection");
+
+    if (activeQuizMode === "spelling") {
+      spellSec.classList.remove("hidden");
+      mcqSec.classList.add("hidden");
+      $("quizQuestionMain").textContent = wordObj.meaning + " (" + (wordObj.pos || "") + ")";
+      $("quizQuestionSub").textContent = wordObj.phonetic || "请根据释义拼写外语原词";
+      $("quizSpellingInput").value = "";
+      renderSpellingSlots(wordObj.word, "", null);
+    } else if (activeQuizMode === "listening") {
+      spellSec.classList.add("hidden");
+      mcqSec.classList.remove("hidden");
+      $("quizQuestionMain").textContent = "🎧 请听发音，选出对应的单词与释义";
+      $("quizQuestionSub").textContent = "点击右上角「🔊 朗读发音」可重复听音";
+      speakWord(wordObj.word, state.activeLang);
+      renderQuizMcqOptions(wordObj, "listening");
+    } else if (activeQuizMode === "cloze") {
+      spellSec.classList.add("hidden");
+      mcqSec.classList.remove("hidden");
+      var masked = (wordObj.example || ("Let's learn " + wordObj.word + ".")).replace(new RegExp(wordObj.word, "gi"), "______");
+      $("quizQuestionMain").textContent = masked;
+      $("quizQuestionSub").textContent = "提示词义：" + wordObj.meaning + " (" + (wordObj.pos || "") + ")";
+      renderQuizMcqOptions(wordObj, "cloze");
+    } else if (activeQuizMode === "sense") {
+      spellSec.classList.add("hidden");
+      mcqSec.classList.remove("hidden");
+      var targetFam = (wordObj.family && wordObj.family.length > 1) ? wordObj.family[1] : { word: wordObj.word, pos: wordObj.pos, meaning: wordObj.meaning };
+      $("quizQuestionMain").textContent = "在「" + wordObj.word + "」同词族中，哪个词形对应【" + targetFam.meaning + " (" + targetFam.pos + ")】？";
+      $("quizQuestionSub").textContent = "考察词族词性派生与精确辨析";
+      renderQuizMcqOptions(wordObj, "sense", targetFam);
+    }
+  }
+
+  function renderSpellingSlots(targetWord, typedValue, status) {
+    var box = $("spellingLetterSlots");
+    box.innerHTML = "";
+    var chars = String(targetWord || "").split("");
+    var typed = String(typedValue || "");
+
+    chars.forEach(function (ch, i) {
+      var slot = document.createElement("div");
+      var cls = "letter-box";
+      if (status === "correct") cls += " correct";
+      else if (status === "error") cls += " error";
+      else if (typed[i]) cls += " filled";
+      slot.className = cls;
+      slot.textContent = typed[i] ? typed[i] : (i < hintLetterCount ? ch : "");
+      box.appendChild(slot);
+    });
+  }
+
+  function renderQuizMcqOptions(wordObj, mode, targetFam) {
+    var mcqSec = $("quizMcqSection");
+    mcqSec.innerHTML = "";
+    var book = getActiveBook();
+    var correctText = "";
+    var opts = [];
+
+    if (mode === "listening") {
+      correctText = wordObj.word + " — " + wordObj.meaning;
+      opts.push(correctText);
+      book.words.forEach(function (w) {
+        var label = w.word + " — " + w.meaning;
+        if (opts.indexOf(label) === -1 && opts.length < 4) opts.push(label);
+      });
+      var extras = ["ephemeral — 转瞬即逝的", "ubiquitous — 无处不在的", "meticulous — 一丝不苟的"];
+      for (var i = 0; i < extras.length && opts.length < 4; i++) {
+        if (opts.indexOf(extras[i]) === -1) opts.push(extras[i]);
+      }
+    } else if (mode === "cloze") {
+      correctText = wordObj.word;
+      opts.push(correctText);
+      (wordObj.family || []).forEach(function (f) {
+        if (opts.indexOf(f.word) === -1 && opts.length < 4) opts.push(f.word);
+      });
+      book.words.forEach(function (w) {
+        if (opts.indexOf(w.word) === -1 && opts.length < 4) opts.push(w.word);
+      });
+    } else {
+      var tf = targetFam || { word: wordObj.word, pos: wordObj.pos, meaning: wordObj.meaning };
+      correctText = tf.word + " (" + tf.pos + " " + tf.meaning + ")";
+      opts.push(correctText);
+      (wordObj.family || []).forEach(function (f) {
+        var lb = f.word + " (" + f.pos + " " + f.meaning + ")";
+        if (opts.indexOf(lb) === -1 && opts.length < 4) opts.push(lb);
+      });
+      book.words.forEach(function (w) {
+        var lb = w.word + " (" + w.pos + " " + w.meaning + ")";
+        if (opts.indexOf(lb) === -1 && opts.length < 4) opts.push(lb);
+      });
+    }
+
+    opts.sort(function (a, b) { return a.localeCompare(b); });
+
+    opts.forEach(function (optStr) {
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "mcq-option";
+      btn.textContent = optStr;
+      btn.addEventListener("click", function () {
+        var mem = getWordMem(wordObj.id);
+        if (optStr === correctText) {
+          btn.classList.add("correct");
+          mem.scores[mode] = Math.min(100, (mem.scores[mode] || 0) + 25);
+          saveState();
+          $("quizFeedbackLine").style.color = "var(--green)";
+          $("quizFeedbackLine").textContent = "✅ 回答正确！该词【" + mode + "】掌握度升至 " + mem.scores[mode] + "%";
+        } else {
+          btn.classList.add("wrong");
+          $("quizFeedbackLine").style.color = "var(--red)";
+          $("quizFeedbackLine").textContent = "❌ 选错啦，正确答案是：" + correctText;
+        }
+      });
+      mcqSec.appendChild(btn);
+    });
+  }
+
+  // ==================== 5. 同人小剧场 Tab（融合今日所学词汇） ====================
+  var THEATER_SCENES = ["创意工作室", "日常同人甜饼", "校园自习室", "悬疑探案夜", "匿名论坛体吐槽"];
+  var currentTheaterScene = "创意工作室";
+
+  function renderTheaterView() {
+    var charObj = getActiveChar();
+    $("theaterCompanionTag").textContent = "搭档: " + charObj.name;
+
+    var sel = $("theaterWordSelect");
+    var prev = sel.value;
+    sel.innerHTML = "";
+    var pool = getActiveStudyPoolOrFallback();
+    pool.forEach(function (w) {
+      var opt = document.createElement("option");
+      opt.value = w.id;
+      var famNames = (w.family || []).map(function (f) { return f.word; }).join(" / ");
+      opt.textContent = w.word + " (" + w.meaning + ") [" + famNames + "]";
+      sel.appendChild(opt);
+    });
+    if (prev && pool.some(function (x) { return x.id === prev; })) sel.value = prev;
+
+    var sceneBox = $("theaterSceneButtons");
+    sceneBox.innerHTML = "";
+    THEATER_SCENES.forEach(function (sc) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "btn sm " + (sc === currentTheaterScene ? "" : "ghost");
+      b.textContent = sc;
+      b.addEventListener("click", function () {
+        currentTheaterScene = sc;
+        renderTheaterView();
+        buildTemplateStory();
+      });
+      sceneBox.appendChild(b);
+    });
+
+    if (!$("storyLinesBox").innerHTML.trim()) {
+      buildTemplateStory();
+    }
+  }
+
+  function getSelectedStoryWord() {
+    var pool = getActiveStudyPoolOrFallback();
+    var id = $("theaterWordSelect") ? $("theaterWordSelect").value : "";
+    return pool.find(function (w) { return w.id === id; }) || pool[0];
+  }
+
+  function buildTemplateStory() {
+    var wordObj = getSelectedStoryWord();
+    if (!wordObj) return;
+    var charObj = getActiveChar();
+    var fam = (wordObj.family && wordObj.family.length > 0)
+      ? wordObj.family
+      : [{ word: wordObj.word, pos: wordObj.pos, meaning: wordObj.meaning }];
+
+    var w0 = fam[0].word;
+    var w1 = fam[1] ? fam[1].word : w0;
+    var w2 = fam[2] ? fam[2].word : w1;
+
+    $("storyStageHeader").textContent = "小剧场 · " + currentTheaterScene;
+    $("storyModeTag").textContent = "⚡ 模板快速生成 (零Token)";
+
+    var lines = [];
+    if (currentTheaterScene === "匿名论坛体吐槽") {
+      lines = [
+        "【匿名论坛热帖】求助！每天陪我背词书的搭档太会撩怎么办？",
+        "1L 楼主：今天背到 " + w0 + " 的时候我卡壳了，结果 " + charObj.name + " 凑过来慢悠悠地说：「用点 " + w1 + " 的联想方式记住它，背会了今晚带你去吃夜宵。」",
+        "2L 网友：哈哈哈这哪里是背单词，这分明是用满满的 " + w2 + " 在谈恋爱吧！"
+      ];
+    } else if (currentTheaterScene === "创意工作室") {
+      lines = [
+        "「如果我能 " + w0 + " 一件只属于我们的作品，你觉得它应该是什么？」" + charObj.name + "微笑着看向你。",
+        "「大概是很 " + w1 + " 的东西吧。不过，真正重要的不是 " + w2 + "，而是我们愿意一起创造的过程。」"
+      ];
+    } else {
+      lines = [
+        "在【" + currentTheaterScene + "】的安静氛围里，" + charObj.name + "指了指你刚背完的词卡。",
+        "「今天刚标记为『认识』的 " + w0 + "，还有它的同族变形 " + w1 + " 与 " + w2 + "，现在放进我们的故事里是不是一下子就鲜活起来了？」"
+      ];
+    }
+
+    renderStoryStageContent(wordObj, lines);
+  }
+
+  function renderStoryStageContent(wordObj, lines) {
+    var fam = (wordObj.family && wordObj.family.length > 0)
+      ? wordObj.family
+      : [{ word: wordObj.word, pos: wordObj.pos, meaning: wordObj.meaning }];
+
+    var box = $("storyLinesBox");
+    box.innerHTML = "";
+    lines.forEach(function (lineText) {
+      var p = document.createElement("div");
+      var html = lineText;
+      fam.forEach(function (f) {
+        var esc = f.word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        html = html.replace(new RegExp("(" + esc + ")", "gi"), '<span class="kw-pill" data-speak="' + f.word + '">$1</span>');
+      });
+      p.innerHTML = html;
+      box.appendChild(p);
+    });
+
+    var pills = box.querySelectorAll("[data-speak]");
+    for (var i = 0; i < pills.length; i++) {
+      (function (el) {
+        el.addEventListener("click", function () {
+          speakWord(el.getAttribute("data-speak"), state.activeLang);
+        });
+      })(pills[i]);
+    }
+
+    var foot = $("storyVocabFootnotes");
+    foot.innerHTML = "";
+    fam.forEach(function (f) {
+      var d = document.createElement("div");
+      d.style.cursor = "pointer";
+      d.textContent = "• " + f.word + " — " + f.meaning + " (" + f.pos + ") 🔊";
+      d.addEventListener("click", function () { speakWord(f.word, state.activeLang); });
+      foot.appendChild(d);
+    });
+  }
+
+  // ==================== 6. 词库记忆追踪表 & 个人笔记 ====================
+  function renderNotebookView() {
+    var book = getActiveBook();
+    var q = ($("memorySearchInput").value || "").trim().toLowerCase();
+    var box = $("memoryWordListBox");
+    box.innerHTML = "";
+
+    var trackedCount = 0;
+    book.words.forEach(function (w) {
+      var m = getWordMem(w.id);
+      if (m.status !== "new") trackedCount++;
+      if (q && w.word.toLowerCase().indexOf(q) === -1 && w.meaning.toLowerCase().indexOf(q) === -1) return;
+
+      var statusBadge = m.status === "known"
+        ? '<span class="tag" style="background:var(--green-soft);color:var(--green)">😎 已认识 (背过' + (m.reps || 1) + '次)</span>'
+        : (m.status === "learning"
+          ? '<span class="tag" style="background:var(--amber-soft);color:var(--amber)">🤔 强化记忆中 (遗忘' + (m.lapses || 0) + '次)</span>'
+          : '<span class="tag">待学习</span>');
+
+      var row = document.createElement("div");
+      row.className = "card-sm";
+      row.innerHTML = '<div class="row-between">'
+        + '  <div><strong>' + w.word + '</strong> <span style="font-size:12px;color:var(--text-sub)">' + (w.phonetic || '') + ' · ' + w.meaning + '</span></div>'
+        + statusBadge
+        + '</div>'
+        + '<div style="font-size:11.5px;color:var(--text-sub);margin-top:6px">'
+        + '  独立成绩：拼写 ' + (m.scores.spelling || 0) + '% · 听力 ' + (m.scores.listening || 0) + '% · 完形 ' + (m.scores.cloze || 0) + '% · 辨析 ' + (m.scores.sense || 0) + '%'
+        + '</div>';
+      box.appendChild(row);
+    });
+
+    $("memoryTrackedCountTag").textContent = "已追踪 " + trackedCount + " / " + book.words.length + " 词";
+
+    // 渲染笔记列表
+    var nBox = $("savedNotesListBox");
+    nBox.innerHTML = "";
+    state.notes.forEach(function (n) {
+      var div = document.createElement("div");
+      div.className = "card-sm";
+      div.innerHTML = '<div class="row-between"><strong>' + n.title + '</strong><span class="tag">' + n.date + '</span></div>'
+        + '<p style="font-size:13px;margin-top:6px;white-space:pre-wrap">' + n.body + '</p>';
+      nBox.appendChild(div);
+    });
+  }
+
+  // ==================== 7. 个人中心（角色 + 语言 + 签到 + 商城文字小剧场） ====================
+  function renderProfileView() {
+    var charObj = getActiveChar();
+    $("profileCharAvatar").textContent = charObj.avatar || "🌙";
+    $("profileCharName").textContent = "伴学搭档：" + charObj.name;
+    $("profileCharQuote").textContent = charObj.quote;
+
+    var cSel = $("profileCharSelect");
+    cSel.innerHTML = "";
+    state.characters.forEach(function (c) {
+      var opt = document.createElement("option");
+      opt.value = c.id;
+      opt.textContent = c.name + " (" + c.relation + ")";
+      if (c.id === state.activeCharId) opt.selected = true;
+      cSel.appendChild(opt);
+    });
+
+    var lSel = $("profileLangSelect");
+    lSel.innerHTML = "";
+    LANGUAGES.forEach(function (l) {
+      var opt = document.createElement("option");
+      opt.value = l.code;
+      opt.textContent = l.name;
+      if (l.code === state.activeLang) opt.selected = true;
+      lSel.appendChild(opt);
+    });
+
+    $("profileStarlightText").textContent = String(state.starlight);
+    $("profileShardText").textContent = String(state.shards);
+    $("profileStreakText").textContent = state.streak + " 天";
+
+    var wGrid = $("profileWeekGrid");
+    wGrid.innerHTML = "";
+    state.weekDays.forEach(function (d) {
+      var cell = document.createElement("div");
+      cell.className = "week-cell" + (d.status === "done" ? " done" : "");
+      cell.innerHTML = '<div>' + d.day + '</div><div style="margin-top:2px">' + d.text + '</div>';
+      wGrid.appendChild(cell);
+    });
+
+    var shopItems = [
+      { id: "buy_fiction", title: "📖 随机文字小剧场", desc: "多世界观/日常同人文/论坛体吐槽盲盒", cost: 30 },
+      { id: "buy_costume", title: "👗 角色伴学穿搭", desc: "解锁极简风/学院风/咖啡厅穿搭", cost: 80 },
+      { id: "buy_plant", title: "🌱 随机植物盆栽", desc: "养成桌面小花圃，随背词天数开花", cost: 40 },
+      { id: "buy_plushie", title: "🧸 随机玩偶收集", desc: "重复玩偶自动转 +15 绒毛碎片", cost: 50 }
+    ];
+
+    var sGrid = $("profileShopGrid");
+    sGrid.innerHTML = "";
+    shopItems.forEach(function (it) {
+      var btn = document.createElement("div");
+      btn.className = "review-entry-card";
+      btn.innerHTML = '<strong style="font-size:14px">' + it.title + '</strong>'
+        + '<span style="font-size:12px;color:var(--text-sub);flex:1">' + it.desc + '</span>'
+        + '<button type="button" class="btn sm" data-shop-action="' + it.id + '">🌟 ' + it.cost + ' 星光兑换</button>';
+      sGrid.appendChild(btn);
+    });
+
+    var sBtns = sGrid.querySelectorAll("[data-shop-action]");
+    for (var i = 0; i < sBtns.length; i++) {
+      (function (b) {
+        b.addEventListener("click", function () {
+          handleShopBuy(b.getAttribute("data-shop-action"));
+        });
+      })(sBtns[i]);
+    }
+
+    // 渲染已解锁的文字小剧场归档列表
+    $("unlockedFictionCountTag").textContent = "已解锁 " + state.unlockedFictions.length + " 篇小剧场";
+    var ficBox = $("unlockedTheaterArchiveList");
+    ficBox.innerHTML = "";
+    state.unlockedFictions.forEach(function (fic) {
+      var card = document.createElement("div");
+      card.className = "card-sm";
+      card.style.cursor = "pointer";
+      card.innerHTML = '<div class="row-between"><span class="tag">' + fic.tag + '</span><span style="font-size:12px;font-weight:700">点击阅读全文 ▶</span></div>'
+        + '<div style="font-weight:800;margin-top:6px">' + fic.title + '</div>';
+      card.addEventListener("click", function () {
+        $("fictionReaderTag").textContent = fic.tag;
+        $("fictionReaderTitle").textContent = fic.title;
+        $("fictionReaderBody").textContent = fic.body;
+        $("fictionReaderModal").classList.remove("hidden");
+      });
+      ficBox.appendChild(card);
+    });
+
+    var itemBox = $("unlockedItemsTagList");
+    itemBox.innerHTML = "";
+    state.unlockedItems.forEach(function (name) {
+      var sp = document.createElement("span");
+      sp.className = "tag";
+      sp.textContent = name;
+      itemBox.appendChild(sp);
+    });
+  }
+
+  function handleShopBuy(actionId) {
+    if (actionId === "buy_fiction") {
+      if (state.starlight < 30) return showToast("⚠️ 星光值不足 30，快去背几个单词赚星光吧！");
+      state.starlight -= 30;
+      var pick = RANDOM_TEXT_THEATER_POOL[Math.floor(Math.random() * RANDOM_TEXT_THEATER_POOL.length)];
+      if (!state.unlockedFictions.some(function (f) { return f.id === pick.id; })) {
+        state.unlockedFictions.unshift(pick);
+      }
+      saveState();
+      renderProfileView();
+      $("fictionReaderTag").textContent = pick.tag;
+      $("fictionReaderTitle").textContent = pick.title;
+      $("fictionReaderBody").textContent = pick.body;
+      $("fictionReaderModal").classList.remove("hidden");
+      showToast("🎉 抽中文字小剧场：" + pick.title);
+    } else if (actionId === "buy_costume") {
+      if (state.starlight < 80) return showToast("⚠️ 星光值不足 80！");
+      state.starlight -= 80;
+      var pool = ["👗 极简黑白风衣", "👗 图书馆针织毛衣", "👗 假日画室贝雷帽套装"];
+      var c = pool[Math.floor(Math.random() * pool.length)];
+      if (state.unlockedItems.indexOf(c) === -1) state.unlockedItems.unshift(c);
+      saveState();
+      renderProfileView();
+      showToast("🎉 解锁新穿搭：" + c);
+    } else if (actionId === "buy_plant") {
+      if (state.starlight < 40) return showToast("⚠️ 星光值不足 40！");
+      state.starlight -= 40;
+      var pPool = ["🌱 银叶尤加利盆栽", "🌱 梦幻桃蛋多肉", "🌱 极简白山茶花"];
+      var p = pPool[Math.floor(Math.random() * pPool.length)];
+      if (state.unlockedItems.indexOf(p) === -1) state.unlockedItems.unshift(p);
+      saveState();
+      renderProfileView();
+      showToast("🌱 获得新植物：" + p);
+    } else if (actionId === "buy_plushie") {
+      if (state.starlight < 50) return showToast("⚠️ 星光值不足 50！");
+      state.starlight -= 50;
+      var dPool = ["🧸 奶油泰迪熊玩偶", "🧸 黑白熊猫团子", "🧸 垂耳兔公仔"];
+      var d = dPool[Math.floor(Math.random() * dPool.length)];
+      if (state.unlockedItems.indexOf(d) >= 0) {
+        state.shards += 15;
+        showToast("✨ 抽到重复玩偶【" + d + "】，自动转化为 +15 🧸绒毛碎片！");
+      } else {
+        state.unlockedItems.unshift(d);
+        showToast("🎉 获得新玩偶：" + d);
+      }
+      saveState();
+      renderProfileView();
+    }
+  }
+
+  // ==================== 绑定全部交互事件 ====================
+  function bindEvents() {
+    // 底部 4 大导航
+    $("navTabStudy").addEventListener("click", function () { renderStudyHome(); showSection("mainTabStudy", "study"); });
+    $("navTabTheater").addEventListener("click", function () { renderTheaterView(); showSection("mainTabTheater", "theater"); });
+    $("navTabNotebook").addEventListener("click", function () { renderNotebookView(); showSection("mainTabNotebook", "notebook"); });
+    $("navTabProfile").addEventListener("click", function () { renderProfileView(); showSection("mainTabProfile", "profile"); });
+
+    // 主页按钮：换词书、改计划、开始今日背诵
+    $("btnOpenBookSelector").addEventListener("click", function () {
+      renderBookSelectPage();
+      showSection("subpageBookSelect", "study");
+    });
+
+    $("btnEditPlanModal").addEventListener("click", function () {
+      openPlanModalForBook(state.activeBookId);
+    });
+
+    $("btnStartTodayStudy").addEventListener("click", function () {
+      startTodayMemorizeSession();
+    });
+
+    // 主页 5 个独立复习卡片入口
+    $("cardOpenSpellingPage").addEventListener("click", function () { openQuizSubpage("spelling"); });
+    $("cardOpenListeningPage").addEventListener("click", function () { openQuizSubpage("listening"); });
+    $("cardOpenClozePage").addEventListener("click", function () { openQuizSubpage("cloze"); });
+    $("cardOpenSensePage").addEventListener("click", function () { openQuizSubpage("sense"); });
+    $("cardOpenTheaterSubpage").addEventListener("click", function () {
+      renderTheaterView();
+      showSection("mainTabTheater", "theater");
+    });
+
+    // 各二级子页面的左上角返回键
+    $("btnBackFromBooks").addEventListener("click", function () { renderStudyHome(); showSection("mainTabStudy", "study"); });
+    $("btnBackFromMemorize").addEventListener("click", function () { renderStudyHome(); showSection("mainTabStudy", "study"); });
+    $("btnBackFromComplete").addEventListener("click", function () { renderStudyHome(); showSection("mainTabStudy", "study"); });
+    $("btnBackFromQuiz").addEventListener("click", function () { renderStudyHome(); showSection("mainTabStudy", "study"); });
+    $("btnBackFromTheater").addEventListener("click", function () { renderStudyHome(); showSection("mainTabStudy", "study"); });
+
+    // 词书导入（本地文件 + 粘贴自建）
+    $("btnTriggerImportFile").addEventListener("click", function () {
+      $("hiddenBookFileInput").click();
+    });
+
+    $("hiddenBookFileInput").addEventListener("change", function (e) {
+      var file = e.target.files && e.target.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function (ev) {
+        var newBook = parseImportedBookText(ev.target.result, file.name);
+        if (!newBook) {
+          showToast("⚠️ 未能从文件中解析出词条，请检查每行是否为『单词 释义』格式");
+          return;
+        }
+        state.books.unshift(newBook);
+        state.activeBookId = newBook.id;
+        saveState();
+        renderBookSelectPage();
+        openPlanModalForBook(newBook.id);
+        showToast("✅ 成功导入词书《" + newBook.title + "》（共 " + newBook.words.length + " 词）！");
+      };
+      reader.readAsText(file, "utf-8");
+    });
+
+    $("btnOpenPasteBookModal").addEventListener("click", function () {
+      $("pasteBookModal").classList.remove("hidden");
+    });
+    $("btnClosePasteBookModal").addEventListener("click", function () {
+      $("pasteBookModal").classList.add("hidden");
+    });
+    $("btnConfirmCreateCustomBook").addEventListener("click", function () {
+      var title = ($("customBookTitleInput").value || "").trim() || "自建精选词书";
+      var raw = $("customBookRawInput").value || "";
+      var newBook = parseImportedBookText(raw, title);
+      if (!newBook) {
+        showToast("⚠️ 请至少按『单词 释义』格式输入一行单词！");
+        return;
+      }
+      state.books.unshift(newBook);
+      state.activeBookId = newBook.id;
+      saveState();
+      $("pasteBookModal").classList.add("hidden");
+      renderBookSelectPage();
+      openPlanModalForBook(newBook.id);
+      showToast("✅ 已创建词书《" + newBook.title + "》！");
+    });
+
+    // 计划制定弹窗事件
+    $("btnClosePlanModal").addEventListener("click", function () {
+      $("planModal").classList.add("hidden");
+    });
+
+    var quotaBtns = $("dailyQuotaButtons").querySelectorAll("[data-quota]");
+    for (var i = 0; i < quotaBtns.length; i++) {
+      (function (b) {
+        b.addEventListener("click", function () {
+          pendingPlanQuota = Number(b.getAttribute("data-quota")) || 10;
+          updatePlanModalEstimate();
+        });
+      })(quotaBtns[i]);
+    }
+
+    $("btnConfirmBookPlan").addEventListener("click", function () {
+      if (pendingPlanBookId) state.activeBookId = pendingPlanBookId;
+      state.dailyQuota = pendingPlanQuota;
+      saveState();
+      $("planModal").classList.add("hidden");
+      renderStudyHome();
+      showSection("mainTabStudy", "study");
+      showToast("📅 计划已设定：每日背诵 " + state.dailyQuota + " 词！");
+    });
+
+    // 墨墨式背单词子页面事件
+    $("btnSpeakCurrentStudyWord").addEventListener("click", function () {
+      if (studyQueue[0]) speakWord(studyQueue[0].word, state.activeLang);
+    });
+
+    $("btnRevealMeaning").addEventListener("click", function () {
+      $("studyCardRevealedContent").classList.remove("hidden");
+      $("btnRevealMeaning").classList.add("hidden");
+    });
+
+    $("btnMemKnow").addEventListener("click", function () { handleMemorizeChoice("know"); });
+    $("btnMemFamiliar").addEventListener("click", function () { handleMemorizeChoice("familiar"); });
+    $("btnMemUnknown").addEventListener("click", function () { handleMemorizeChoice("unknown"); });
+
+    // 完成学习结算页按钮：是否继续进行拼写？
+    $("btnSkipToHome").addEventListener("click", function () {
+      renderStudyHome();
+      showSection("mainTabStudy", "study");
+    });
+
+    $("btnGoToSpellingNow").addEventListener("click", function () {
+      openQuizSubpage("spelling");
+    });
+
+    // 独立专项复习页（拼写字母格实时对齐、提示、判分、下一题）
+    $("btnQuizPlayAudio").addEventListener("click", function () {
+      var w = quizWordPool[quizIndex];
+      if (w) speakWord(w.word, state.activeLang);
+    });
+
+    $("quizSpellingInput").addEventListener("input", function () {
+      var w = quizWordPool[quizIndex];
+      if (!w) return;
+      renderSpellingSlots(w.word, $("quizSpellingInput").value, null);
+    });
+
+    $("btnSpellingHintLetter").addEventListener("click", function () {
+      var w = quizWordPool[quizIndex];
+      if (!w) return;
+      hintLetterCount = Math.min(w.word.length, hintLetterCount + 1);
+      $("quizSpellingInput").value = w.word.slice(0, hintLetterCount);
+      renderSpellingSlots(w.word, $("quizSpellingInput").value, null);
+    });
+
+    $("btnSpellingCheck").addEventListener("click", function () {
+      var w = quizWordPool[quizIndex];
+      if (!w) return;
+      var typed = ($("quizSpellingInput").value || "").trim();
+      var mem = getWordMem(w.id);
+      if (typed.toLowerCase() === w.word.toLowerCase()) {
+        renderSpellingSlots(w.word, w.word, "correct");
+        mem.scores.spelling = Math.min(100, (mem.scores.spelling || 0) + 25);
+        saveState();
+        $("quizFeedbackLine").style.color = "var(--green)";
+        $("quizFeedbackLine").textContent = "✅ 拼写完全正确！拼写熟练度升至 " + mem.scores.spelling + "%";
+        speakWord(w.word, state.activeLang);
+      } else {
+        renderSpellingSlots(w.word, typed, "error");
+        $("quizFeedbackLine").style.color = "var(--red)";
+        $("quizFeedbackLine").textContent = "❌ 拼写有误，正确拼写为：" + w.word;
+      }
+    });
+
+    $("quizSpellingInput").addEventListener("keydown", function (e) {
+      if (e.key === "Enter") $("btnSpellingCheck").click();
+    });
+
+    $("btnNextQuizItem").addEventListener("click", function () {
+      quizIndex = (quizIndex + 1) % Math.max(1, quizWordPool.length);
+      renderQuizItem();
+    });
+
+    // 小剧场页面按钮
+    $("theaterWordSelect").addEventListener("change", buildTemplateStory);
+    $("btnGenerateTemplateStory").addEventListener("click", function () {
+      buildTemplateStory();
+      showToast("⚡ 已用今日所学单词生成小剧场！");
+    });
+
+    $("btnGenerateAiStory").addEventListener("click", function () {
+      var w = getSelectedStoryWord();
+      var c = getActiveChar();
+      if (!w) return;
+      var famStr = (w.family || [{ word: w.word, pos: w.pos, meaning: w.meaning }]).map(function (f) {
+        return f.word + "(" + f.meaning + ")";
+      }).join("、");
+
+      if (api && api.ai && typeof api.ai.generate === "function") {
+        $("btnGenerateAiStory").disabled = true;
+        $("btnGenerateAiStory").textContent = "生成中…";
+        api.ai.generate({
+          characterId: c.id,
+          instruction: "请以你的角色身份，按【" + currentTheaterScene + "】风格写一段150字以内的互动小剧场或论坛吐槽帖，必须自然嵌入这些词形：" + famStr
+        }).then(function (res) {
+          var txt = String((res && res.text) || "").trim();
+          if (txt) {
+            $("storyModeTag").textContent = "✨ AI 角色专属生成";
+            renderStoryStageContent(w, txt.split(/\r?\n/).filter(Boolean));
+          }
+        }).catch(function () {
+          buildTemplateStory();
+        }).finally(function () {
+          $("btnGenerateAiStory").disabled = false;
+          $("btnGenerateAiStory").textContent = "✨ AI 角色专属生成";
+        });
+      } else {
+        buildTemplateStory();
+        $("storyModeTag").textContent = "✨ 角色专属模式";
+        showToast("✨ 已围绕伴学角色「" + c.name + "」生成专属剧情！");
+      }
+    });
+
+    $("btnFinishStoryReward").addEventListener("click", function () {
+      state.starlight += 5;
+      saveState();
+      showToast("🌟 完成小剧场语境记忆，奖励 +5 星光值！");
+    });
+
+    $("btnWriteStoryMemory").addEventListener("click", function () {
+      var c = getActiveChar();
+      showToast("🧠 已将本次小剧场互动写入「" + c.name + "」的角色记忆！");
+    });
+
+    $("btnCopyStoryToNote").addEventListener("click", function () {
+      var txt = $("storyLinesBox").innerText || "";
+      state.notes.unshift({
+        id: "n_" + Date.now(),
+        title: "【小剧场摘抄】" + currentTheaterScene,
+        body: txt,
+        date: "今日"
+      });
+      saveState();
+      showToast("📝 已摘抄至学习笔记！");
+    });
+
+    // 词库与笔记页按钮
+    $("memorySearchInput").addEventListener("input", renderNotebookView);
+    $("btnOpenManualAddWord").addEventListener("click", function () {
+      $("manualWordModal").classList.remove("hidden");
+    });
+    $("btnCloseManualWordModal").addEventListener("click", function () {
+      $("manualWordModal").classList.add("hidden");
+    });
+    $("btnConfirmManualWord").addEventListener("click", function () {
+      var w = ($("manualWordInput").value || "").trim();
+      var m = ($("manualMeaningInput").value || "").trim();
+      if (!w || !m) return showToast("⚠️ 请填写单词和中文释义！");
+      var book = getActiveBook();
+      if (book.words.some(function (x) { return x.word.toLowerCase() === w.toLowerCase(); })) {
+        return showToast("ℹ️ 当前词书中已存在该单词，自动去重拦截！");
+      }
+      var famArr = [{ word: w, pos: $("manualPosInput").value || "n.", meaning: m }];
+      var rawFam = ($("manualFamilyInput").value || "").trim();
+      if (rawFam) {
+        rawFam.split(/[,，]/).forEach(function (pair) {
+          var kv = pair.split(/[:：]/);
+          if (kv.length >= 2) famArr.push({ word: kv[0].trim(), pos: "派生", meaning: kv[1].trim() });
+        });
+      }
+      book.words.unshift({
+        id: "w_manual_" + Date.now(),
+        word: w,
+        lemma: w.toLowerCase(),
+        pos: $("manualPosInput").value || "n.",
+        phonetic: $("manualPhoneticInput").value || "",
+        meaning: m,
+        example: $("manualExampleInput").value || ("Let's remember " + w + " together."),
+        family: famArr
+      });
+      saveState();
+      $("manualWordModal").classList.add("hidden");
+      renderNotebookView();
+      renderStudyHome();
+      showToast("✅ 已添加【" + w + "】到当前词书！");
+    });
+
+    $("btnSwitchNoteSubView").addEventListener("click", function () {
+      $("personalNotesPanel").scrollIntoView({ behavior: "smooth" });
+    });
+
+    $("btnAskRoleNoteComment").addEventListener("click", function () {
+      var c = getActiveChar();
+      var cur = $("noteBodyField").value || "";
+      $("noteBodyField").value = cur + "\n\n【" + c.name + "批注】：整理得很用心，今天背过的词族变形下次在完形填空里一定能全对！";
+      showToast("💌 " + c.name + "已为你的笔记写下批注！");
+    });
+
+    $("btnSavePersonalNote").addEventListener("click", function () {
+      var t = ($("noteTitleField").value || "").trim();
+      var b = ($("noteBodyField").value || "").trim();
+      if (!t || !b) return showToast("请填写笔记标题和正文~");
+      state.notes.unshift({ id: "n_" + Date.now(), title: t, body: b, date: "今日" });
+      $("noteTitleField").value = "";
+      $("noteBodyField").value = "";
+      saveState();
+      renderNotebookView();
+      showToast("💾 笔记已保存！");
+    });
+
+    // 个人中心事件（切换角色、切换语种、签到、外观设置、小剧场阅读器）
+    $("profileCharSelect").addEventListener("change", function () {
+      state.activeCharId = $("profileCharSelect").value;
+      saveState();
+      renderProfileView();
+      renderStudyHome();
+      showToast("🌙 已切换伴学角色为：" + getActiveChar().name);
+    });
+
+    $("profileLangSelect").addEventListener("change", function () {
+      state.activeLang = $("profileLangSelect").value;
+      var firstBook = state.books.find(function (b) { return b.lang === state.activeLang; });
+      if (firstBook) state.activeBookId = firstBook.id;
+      saveState();
+      renderProfileView();
+      renderStudyHome();
+      showToast("🌍 已切换学习语言，并为你匹配对应词书！");
+    });
+
+    $("btnProfileSignToday").addEventListener("click", function () {
+      if (state.signedToday) return showToast("今天已经签过到啦！");
+      state.signedToday = true;
+      state.starlight += 5;
+      state.streak += 1;
+      for (var i = 0; i < state.weekDays.length; i++) {
+        if (state.weekDays[i].status === "pending") {
+          state.weekDays[i].status = "done";
+          state.weekDays[i].text = "+5";
+          break;
+        }
+      }
+      saveState();
+      renderProfileView();
+      showToast("📅 签到成功！星光值 +5！");
+    });
+
+    $("btnProfileRestDay").addEventListener("click", function () {
+      for (var i = 0; i < state.weekDays.length; i++) {
+        if (state.weekDays[i].status === "pending") {
+          state.weekDays[i].status = "done";
+          state.weekDays[i].text = "休息";
+          saveState();
+          renderProfileView();
+          showToast("🌿 已设为免签休息日，连签天数不断！");
+          return;
+        }
+      }
+      showToast("本周已满，无需设置休息日~");
+    });
+
+    $("btnProfileShardRedeem").addEventListener("click", function () {
+      if (state.shards < 30) return showToast("🧸 碎片满 30 个即可保底兑换典藏玩偶（当前 " + state.shards + "/30）");
+      state.shards -= 30;
+      state.unlockedItems.unshift("🧸 典藏黑金泰迪熊(碎片保底)");
+      saveState();
+      renderProfileView();
+      showToast("🎉 碎片保底兑换成功！");
+    });
+
+    $("btnCloseFictionReader").addEventListener("click", function () {
+      $("fictionReaderModal").classList.add("hidden");
+    });
+
+    // 外观设置抽屉
+    $("btnOpenThemeDrawer").addEventListener("click", function () {
+      $("themeWallpaperInput").value = (state.theme && state.theme.wallpaper) || "";
+      $("themeCustomCssInput").value = (state.theme && state.theme.customCss) || "";
+      $("themeDrawerModal").classList.remove("hidden");
+    });
+    $("btnCloseThemeDrawer").addEventListener("click", function () {
+      $("themeDrawerModal").classList.add("hidden");
+    });
+
+    var styleBtns = $("themeStyleButtons").querySelectorAll("[data-style]");
+    for (var j = 0; j < styleBtns.length; j++) {
+      (function (b) {
+        b.addEventListener("click", function () {
+          state.theme.style = b.getAttribute("data-style");
+          for (var k = 0; k < styleBtns.length; k++) {
+            styleBtns[k].className = "btn sm " + (styleBtns[k] === b ? "" : "ghost");
+          }
+          applyTheme();
+        });
+      })(styleBtns[j]);
+    }
+
+    $("btnSaveThemeConfig").addEventListener("click", function () {
+      state.theme.wallpaper = ($("themeWallpaperInput").value || "").trim();
+      state.theme.customCss = $("themeCustomCssInput").value || "";
+      saveState();
+      applyTheme();
+      $("themeDrawerModal").classList.add("hidden");
+      showToast("🎨 外观已保存！");
+    });
+  }
+
+  // 同步原项目手机角色
+  function syncHostCharacters() {
+    if (!api || !api.characters || typeof api.characters.list !== "function") return;
+    api.characters.list().then(function (list) {
+      if (Array.isArray(list) && list.length > 0) {
+        var hostChars = list.map(function (c) {
+          return {
+            id: String(c.id || c.name),
+            name: String(c.name || "角色"),
+            relation: "手机角色搭档",
+            avatar: "🌟",
+            quote: "「今天也一起专注背完计划的单词吧。」"
+          };
+        });
+        state.characters = hostChars.concat(DEFAULT_CHARACTERS);
+        saveState();
+        renderStudyHome();
+      }
+    }).catch(function () {});
+  }
+
+  applyTheme();
+  bindEvents();
+  renderStudyHome();
+  syncHostCharacters();
+})();
+</script>
+</body>
+</html>
